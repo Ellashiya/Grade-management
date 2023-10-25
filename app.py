@@ -1,6 +1,8 @@
 from flask import Flask, render_template
 import sys
-app = Flask(__name__)
+
+
+app = Flask(__name__, static_url_path='/static')
 
 @app.route('/')
 def main():
@@ -11,4 +13,4 @@ def planner_month():
     return render_template('layout-planner-month.html')
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port='8080', debug=True)
