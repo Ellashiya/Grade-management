@@ -13,7 +13,7 @@
     <body>
         <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
             <!-- Navbar Brand-->
-            <a class="navbar-brand ps-3" href="index.html">길잡이</a>
+            <a class="navbar-brand ps-3" href="/">길잡이</a>
             <!-- Sidebar Toggle-->
             <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
             <!-- Navbar Search-->
@@ -28,10 +28,10 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="mypage.html"><i class="fas fa-user fa-fw"></i>&nbsp;마이페이지</a></li>
-                        <li><a class="dropdown-item" href="setting.html"><i class="fa-solid fa-gear"></i>&nbsp;설정</a></li>
+                        <li><a class="dropdown-item" href="/mypage"><i class="fas fa-user fa-fw"></i>&nbsp;마이페이지</a></li>
+                        <li><a class="dropdown-item" href="/setting"><i class="fa-solid fa-gear"></i>&nbsp;설정</a></li>
                         <li><hr class="dropdown-divider" /></li>
-                        <li><a class="dropdown-item" href="logout.html"><i class="fa-solid fa-right-from-bracket"></i>&nbsp;로그아웃</a></li>
+                        <li><a class="dropdown-item" href="#"><i class="fa-solid fa-right-from-bracket"></i>&nbsp;로그아웃</a></li>
                     </ul>
                 </li>
             </ul>
@@ -42,7 +42,7 @@
                     <div class="sb-sidenav-menu">
                         <div class="nav">
                             <div class="sb-sidenav-menu-heading">메인</div>
-                            <a class="nav-link" href="index.html">
+                            <a class="nav-link" href="/">
                                 <div class="sb-nav-link-icon"><i class="fa-solid fa-house-chimney"></i></div>
                                 메인화면
                             </a>
@@ -55,8 +55,8 @@
                             </a>
                             <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                                 <nav class="sb-sidenav-menu-nested nav">
-                                    <a class="nav-link" href="layout-planner-month.html">월별 일정</a>
-                                    <a class="nav-link" href="layout-planner-day.html">일일 일정</a>
+                                    <a class="nav-link" href="/planner/month">월별 일정</a>
+                                    <a class="nav-link" href="/planner/day">일일 일정</a>
                                 </nav>
                             </div>
 
@@ -67,8 +67,8 @@
                             </a>
                             <div class="collapse" id="collapsePages1" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                                 <nav class="sb-sidenav-menu-nested nav">
-                                    <a class="nav-link" href="layout-schoolgrades.html">내신 성적</a>
-                                    <a class="nav-link" href="layout-mockexam.html">모의고사 성적</a>
+                                    <a class="nav-link" href="/schoolgrades">내신 성적</a>
+                                    <a class="nav-link" href="/mockexam">모의고사 성적</a>
                                 </nav>
                             </div>
                             <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages2" aria-expanded="false" aria-controls="collapsePages2">
@@ -78,16 +78,16 @@
                             </a>
                             <div class="collapse" id="collapsePages2" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                                 <nav class="sb-sidenav-menu-nested nav">
-                                    <a class="nav-link" href="layout-mock-board.html">모의고사 자료 게시판</a>
-                                    <a class="nav-link" href="layout-general-board.html">자유게시판</a>
+                                    <a class="nav-link" href="/mock/board">모의고사 자료 게시판</a>
+                                    <a class="nav-link" href="/general/board">자유게시판</a>
                                 </nav>
                             </div>
                             <div class="sb-sidenav-menu-heading">추가 기능</div>
-                            <a class="nav-link" href="layout-university.html">
+                            <a class="nav-link" href="/university">
                                 <div class="sb-nav-link-icon"><i class="fa-solid fa-school-flag"></i></div>
                                 대학교 추천
                             </a>
-                            <a class="nav-link" href="layout-random-questions.html">
+                            <a class="nav-link" href="/random_questions">
                                 <div class="sb-nav-link-icon"><i class="fa-solid fa-clipboard-question"></i></div>
                                 랜덤 문제 출제
                             </a>
@@ -104,8 +104,8 @@
                     <div class="container-fluid px-4">
                         <h1 class="mt-4">길잡이</h1>
                         <ol class="breadcrumb mb-4">
-                            <li class="breadcrumb-item">&nbsp;<a href="index.html" style="text-decoration:none;"><i class="fa-solid fa-house-chimney"></i>&nbsp;메인화면</a></li>
-                            <li class="breadcrumb-item active">플래너</li>
+                            <li class="breadcrumb-item">&nbsp;<a href="/" style="text-decoration:none;"><i class="fa-solid fa-house-chimney"></i>&nbsp;메인화면</a></li>
+                            <li class="breadcrumb-item active">플래너-월</li>
                         </ol>
                         <div class="card mb-4">
                             <div class="card-body">
