@@ -2,9 +2,9 @@ from flask import Flask
 from flask_login import LoginManager
 from flask_cors import CORS
 from guide_view import guide # (블루프린트)guide_view/guide.py 임포트
-from guide_control.users import Users
-from db_model.models import Plans, GradesManage, SchoolGrades, MockGrades, Boards, Comments, Replys
 import os
+from flask_sqlalchemy import SQLAlchemy
+from os import path
 
 # https 만 지원하는 기능을 http에서 테스트하기 위해 사용
 os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
@@ -20,7 +20,7 @@ DB_NAME = "database.db"
 app.config['SECRET_KEY'] = 'load_management'
 app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{DB_NAME}'
 db.init_app(app)
-create_database(app)
+db.create_database(app)
 
 # DB 파일 확인 및 생성
 def create_database(app):
@@ -32,9 +32,9 @@ login_manager = LoginManager()
 login_manager.login_view = 'guide_view.guide.login'
 login_manager.init_app(app)
 
-@login_manager.user_loader
-def load_user(id):
-    return Users.query.get(id)
+# @login_manager.user_loader # 구현 필요
+# def load_user(id):
+#     return Users.query.get(id)
 
 # 블루 프린트 적용
 app.register_blueprint(guide.guide_view, url_prefix="")
