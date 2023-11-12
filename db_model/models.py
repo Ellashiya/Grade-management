@@ -4,6 +4,23 @@ from datetime import datetime
 
 db = SQLAlchemy()
 
+
+class User(db.Model):
+    id = db.Column(db.String(20), primary_key = True)
+    password = db.Column(db.String(20), nullable = False)
+    name = db.Column(db.String(10), nullable = False)
+    age = db.Column(db.Integer, nullable = False)
+    nickname = db.Column(db.String(20),nullable = False, unique = True)
+    email = db.Column(db.String(50), unique = True)
+    school = db.Column(db.String(50))
+
+    plans = db.relationship('Plans', backerf='plan')
+    gradesmange = db.relationship('GradesMange', backerf='gradesmanage')
+    schoolgrades = db.relationship('SchoolGrades', backerf='schoolgrade')
+    mockgrades = db.relationship('MockGrades', backerf='mockgrade')
+    boards = db.relationship('Boards', backref='board')
+    comments = db.relationship('Comments', backref='comment')
+    
 class Plans(db.Model):
     plan_id = db.Column(db.Integer, primary_key = True)
     user_id = db.Column(db.String(20), db.ForeignKey('users.id'))
