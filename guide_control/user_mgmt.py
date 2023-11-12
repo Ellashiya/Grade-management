@@ -17,7 +17,7 @@ class User(UserMixin):
     def get(user_id):
         sqlite_db = conn_sqlitedb()
         db_cursor = sqlite_db.cursor()
-        sql = 'sql문 작성'
+        sql = "SELECT * FROM user_info WHERE USER_ID = '" + str(user_id) + "'"
         db_cursor.execute(sql)
         user = db_cursor.fetchone()
         if not user:
@@ -30,7 +30,8 @@ class User(UserMixin):
     def find(user_email):
         sqlite_db = conn_sqlitedb()
         db_cursor = sqlite_db.cursor()
-        sql = 'sql문 작성'
+        sql = "SELECT * FROM user_info WHERE USER_EMAIL = '" + \
+            str(user_email) + "'"
         db_cursor.execute(sql)
         user = db_cursor.fetchone()
         if not user:
@@ -45,7 +46,8 @@ class User(UserMixin):
         if user == None:
             sqlite_db = conn_sqlitedb()
             db_cursor = sqlite_db.cursor()
-            sql = 'sql문 작성'
+            sql = "INSERT INTO user_info (USER_EMAIL, BLOG_ID) VALUES ('%s', '%s')" % (
+                str(user_email), str(user_id))
             db_cursor.execute(sql)
             sqlite_db.commit()
             return User.find(user_email)
@@ -56,7 +58,7 @@ class User(UserMixin):
     def delete(user_id):
         sqlite_db = conn_sqlitedb()
         db_cursor = sqlite_db.cursor()
-        sql = 'sql문 작성'
+        sql = "DELETE FROM user_info WHERE USER_ID = %d" % (user_id)
         deleted = db_cursor.execute(sql)
         sqlite_db.commit()
         return deleted
