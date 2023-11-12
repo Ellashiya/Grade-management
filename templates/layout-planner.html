@@ -34,7 +34,7 @@
         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
           {% if login == True %}
           <li><a class="dropdown-item" href="#"><i class="fa-solid fa-right-from-bracket"></i>&nbsp;로그아웃</a></li>
-          {% elif login == False %}
+          {% else %}
           <li><a class="dropdown-item" href="/login.html"><i class="fa-solid fa-right-from-bracket"></i>&nbsp;로그인</a>
           </li>
           {% endif %}
@@ -97,7 +97,7 @@
             <!-- TodoList -->
             <div class="col-md-4">
               <!-- 달력에서 선택된 날짜 가져올 것 -->
-              <h3>{selectday.month}월 {selectday.date}일 {selectday.day}요일</h3>
+              <h3>{{selectday.month}}월 {{selectday.date}}일 {{selectday.day}}요일</h3>
               <!-- 할일/한일 입력부분 -->
               <form>
                 <div class="input-group mt-4 mb-2">
