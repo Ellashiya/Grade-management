@@ -12,31 +12,24 @@
         <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
     </head>
     <body class="sb-nav-fixed">
+        <!-- 상단 메뉴 -->
         <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
-            <!-- Navbar Brand-->
             <a class="navbar-brand ps-3" href="/">길잡이</a>
-            <!-- Sidebar Toggle-->
-            <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
-            <!-- Navbar Search-->
-            <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
-                <div class="input-group">
-                    <input class="form-control" type="text" placeholder="Search for..." aria-label="Search for..." aria-describedby="btnNavbarSearch" />
-                    <button class="btn btn-light" id="btnNavbarSearch" type="button"><i class="fas fa-search"></i></button>
-                </div>
-            </form>
-            <!-- Navbar-->
-            <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
+            <!-- 사용자 메뉴 -->
+            <ul class="navbar-nav ms-auto me-0 me-md-3 my-2 my-md-0">
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="/mypage"><i class="fas fa-user fa-fw"></i>&nbsp;마이페이지</a></li>
-                        <li><a class="dropdown-item" href="/setting"><i class="fa-solid fa-gear"></i>&nbsp;설정</a></li>
-                        <li><hr class="dropdown-divider" /></li>
+                        {% if login == True %}
                         <li><a class="dropdown-item" href="#"><i class="fa-solid fa-right-from-bracket"></i>&nbsp;로그아웃</a></li>
+                        {% elif login == False %}
+                        <li><a class="dropdown-item" href="/login.html"><i class="fa-solid fa-right-from-bracket"></i>&nbsp;로그인</a></li>
+                        {% endif %}
                     </ul>
                 </li>
             </ul>
         </nav>
+        <!-- 왼쪽 메뉴 -->
         <div id="layoutSidenav">
             <div id="layoutSidenav_nav">
                 <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
@@ -47,50 +40,18 @@
                                 <div class="sb-nav-link-icon"><i class="fa-solid fa-house-chimney"></i></div>
                                 메인화면
                             </a>
-
                             <div class="sb-sidenav-menu-heading">기능</div>
-                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
+                            <a class="nav-link" href="/planner">
                                 <div class="sb-nav-link-icon"><i class="fa-regular fa-calendar"></i></div>
                                 플래너
-                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                             </a>
-                            <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
-                                <nav class="sb-sidenav-menu-nested nav">
-                                    <a class="nav-link" href="/planner/month">월별 일정</a>
-                                    <a class="nav-link" href="/planner/day">일일 일정</a>
-                                </nav>
-                            </div>
-
-                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages1" aria-expanded="false" aria-controls="collapsePages1">
+                            <a class="nav-link" href="/grades">
                                 <div class="sb-nav-link-icon"><i class="fa-regular fa-pen-to-square"></i></div>
-                                성적관리
-                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                                성적 관리
                             </a>
-                            <div class="collapse" id="collapsePages1" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
-                                <nav class="sb-sidenav-menu-nested nav">
-                                    <a class="nav-link" href="/schoolgrades">내신 성적</a>
-                                    <a class="nav-link" href="/mockexam">모의고사 성적</a>
-                                </nav>
-                            </div>
-                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages2" aria-expanded="false" aria-controls="collapsePages2">
+                            <a class="nav-link" href="/board">
                                 <div class="sb-nav-link-icon"><i class="fa-solid fa-chalkboard"></i></div>
                                 게시판
-                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                            </a>
-                            <div class="collapse" id="collapsePages2" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
-                                <nav class="sb-sidenav-menu-nested nav">
-                                    <a class="nav-link" href="/mock/board">모의고사 자료 게시판</a>
-                                    <a class="nav-link" href="/general/board">자유게시판</a>
-                                </nav>
-                            </div>
-                            <div class="sb-sidenav-menu-heading">추가 기능</div>
-                            <a class="nav-link" href="/university">
-                                <div class="sb-nav-link-icon"><i class="fa-solid fa-school-flag"></i></div>
-                                대학교 추천
-                            </a>
-                            <a class="nav-link" href="/random_questions">
-                                <div class="sb-nav-link-icon"><i class="fa-solid fa-clipboard-question"></i></div>
-                                랜덤 문제 출제
                             </a>
                         </div>
                     </div>
@@ -100,37 +61,31 @@
                     </div>
                 </nav>
             </div>
+            <!-- 본문 내용 -->
             <div id="layoutSidenav_content">
+                {% block content %}
                 <main>
                     <div class="container-fluid px-4">
                         <h1 class="mt-4">길잡이</h1>
                         <ol class="breadcrumb mb-4">
                             <li class="breadcrumb-item active">&nbsp;<i class="fa-solid fa-house-chimney"></i>&nbsp;메인화면</li>
                         </ol>
+                        <!-- 카드 -->
                         <div class="row">
                             <div class="col-xl-3 col-md-6">
                                 <div class="card bg-primary text-white mb-4">
                                     <div class="card-body"><i class="fa-regular fa-calendar"></i>&nbsp;플래너</div>
                                     <div class="card-footer d-flex align-items-center justify-content-between">
-                                        <a class="small text-white stretched-link" href="/planner/month"><br>플래너로 이동하기<p></p></a>
-                                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xl-3 col-md-6">
-                                <div class="card bg-warning text-white mb-4">
-                                    <div class="card-body"><i class="fa-regular fa-pen-to-square"></i>&nbsp;내신 성적</div>
-                                    <div class="card-footer d-flex align-items-center justify-content-between">
-                                        <a class="small text-white stretched-link" href="/schoolgrades"><br>내신성적 관리하기<p></p></a>
+                                        <a class="small text-white stretched-link" href="/planner">플래너로 이동하기</a>
                                         <div class="small text-white"><i class="fas fa-angle-right"></i></div>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-xl-3 col-md-6">
                                 <div class="card bg-success text-white mb-4">
-                                    <div class="card-body"><i class="fa-regular fa-pen-to-square"></i>&nbsp;모의고사 성적</div>
+                                    <div class="card-body"><i class="fa-regular fa-pen-to-square"></i>&nbsp;성적</div>
                                     <div class="card-footer d-flex align-items-center justify-content-between">
-                                        <a class="small text-white stretched-link" href="/mockexam"><br>모의고사성적 관리하기<p></p></a>
+                                        <a class="small text-white stretched-link" href="/grades">성적 관리하기</a>
                                         <div class="small text-white"><i class="fas fa-angle-right"></i></div>
                                     </div>
                                 </div>
@@ -139,11 +94,7 @@
                                 <div class="card bg-danger text-white mb-4">
                                     <div class="card-body"><i class="fa-solid fa-chalkboard"></i>&nbsp;게시판</div>
                                     <div class="card-footer d-flex align-items-center justify-content-between">
-                                        <a class="small text-white stretched-link" href="/mock/board">모의고사 자료 게시판으로 이동하기</a>
-                                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
-                                    </div>
-                                    <div class="card-footer d-flex align-items-center justify-content-between">
-                                        <a class="small text-white stretched-link" href="/general/board">자유 게시판으로 이동하기</a>
+                                        <a class="small text-white stretched-link" href="/board">게시판으로 이동하기</a>
                                         <div class="small text-white"><i class="fas fa-angle-right"></i></div>
                                     </div>
                                 </div>
@@ -151,6 +102,8 @@
                         </div>
                     </div>
                 </main>
+                {% endblock %}
+                <!-- 하단 -->
                 <footer class="py-4 bg-light mt-auto">
                     <div class="container-fluid px-4">
                         <div class="d-flex align-items-center justify-content-between small">
