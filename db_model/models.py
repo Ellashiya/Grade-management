@@ -1,32 +1,24 @@
 from flask_sqlalchemy import SQLAlchemy
+from guide_control.users import db
 from datetime import datetime
 
 db = SQLAlchemy()
 
-class Users(db.Model, UserMixin):
-    id = db.Column(db.String(20), primary_key = True)
-    pw = db.Column(db.String(20), nullable = False)
-    name = db.Column(db.String(10), nullable = False)
-    age = db.Column(db.Integer, nullable = False)
-    nickname = db.Column(db.String(20),nullable = False, unique = True)
-    email = db.Column(db.String(50), unique = True)
-    school = db.Column(db.String(50))
-
-    plans = db.relationship('Plans', backerf='plan')
-    schoolgrades = db.relationship('SchoolGrades', backerf='schoolgrade')
-    mockgrades = db.relationship('MockGrades', backerf='mockgrade')
-	boards = db.relationship('Boards', backref='board')
-    comments = db.relationship('Comments', backref='comment')
-
 class Plans(db.Model):
     plan_id = db.Column(db.Integer, primary_key = True)
     user_id = db.Column(db.String(20), db.ForeignKey('users.id'))
-    do_content = db.Column(db.String(50))
-    done_content = db.Column(db.String(50))
+    content = db.Column(db.String(50))
+    dodone= db.Column(db.String(4))
     d_day = db.Column(db.DateTime, default=datetime.utcnow)
+    set_date = db.Column(db.DateTime, default=datetime.utcnow)
 
 class GradesManage(db.Model):
-    
+    manage_id = db.Column(db.Integer, primary_key = True)
+    user_id = db.Column(db.String(20), db.ForeignKey('users.id'))
+    schoolgrade_id = db.Column(db.Integer, db.ForeignKey('schoolgrades.schoolgrade_id'))
+    mockgrade_id = db.Column(db.Integer, db.ForeignKey('mockgrades.mockgrade_id'))
+    avr_school = db.Column(db.Float)
+    avr_mock = db.Column(db.Float)
 
 class SchoolGrades(db.Model):
     schoolgrade_id = db.Column(db.Integer, primary_key = True)
@@ -69,7 +61,7 @@ class Comments(db.Model):
     board_id = db.Column(db.Integer, db.ForeignKey('boards.board_id'))
     content = db.Column(db.Text)
     upload_date = db.Column(db.DateTime, default=datetime.utcnow)
-    update_date = db.Column(db.DateTime, default=datetime.utcnow)
+    update_date = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
     replys = db.relationship('Replys', backref='reply')
 
@@ -80,4 +72,4 @@ class Replys(db.Model):
     board_id = db.Column(db.Integer, db.ForeignKey('boards.board_id'))
     content = db.Column(db.Text)
     upload_date = db.Column(db.DateTime, default=datetime.utcnow)
-    update_date = db.Column(db.DateTime, default=datetime.utcnow)
+    update_date = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
