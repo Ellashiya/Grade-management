@@ -1,6 +1,7 @@
 import sqlite3
 
-conn = sqlite3.connect('database.db')
+SQLITE_HOST = 'localhost'
+SQLITE_CONN = sqlite3.connect('database.db')
 
 def conn_sqlite3db():
-    pass
+    return SQLITE_CONN
