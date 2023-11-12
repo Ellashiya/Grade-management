@@ -17,5 +17,5 @@ class Users(db.Model, UserMixin):
     gradesmange = db.relationship('GradesMange', backerf='gradesmanage')
     schoolgrades = db.relationship('SchoolGrades', backerf='schoolgrade')
     mockgrades = db.relationship('MockGrades', backerf='mockgrade')
-	boards = db.relationship('Boards', backref='board')
+    boards = db.relationship('Boards', backref='board')
     comments = db.relationship('Comments', backref='comment')
