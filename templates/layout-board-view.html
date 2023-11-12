@@ -1,0 +1,62 @@
+{% extends 'index.html'%}
+{% block content %}
+<main>
+    <div class="container-fluid px-4">
+        <h1 class="mt-4">길잡이</h1>
+        <ol class="breadcrumb mb-4">
+            <li class="breadcrumb-item">&nbsp;<a href="/" style="text-decoration:none;"><i
+                        class="fa-solid fa-house-chimney"></i>&nbsp;메인화면</a></li>
+            <li class="breadcrumb-item active">플래너</li>
+        </ol>
+        <div class="card card-header-actions">
+            <div class="card-header">
+                {{board.title}}
+                <div>
+                    <a href="/board">목록으로 돌아가기</a>
+                </div>
+            </div>
+            <div class="card-body">
+                {{"추천 문제"}}
+            </div>
+            <div class="card-footer"><a href="#">보러가기</a></div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                {{board.content}}
+            </div>
+        </div>
+        {%  for in commentlist %}
+        <div class="card card-header-actions">
+            <div class="card-header">
+                {{users.nickname}}
+                <div>
+                    {% if userid == comment_userid %}
+                    <a href="/comment/update">댓글 수정</a>
+                    <a href="/comment/delete">댓글 삭제</a>
+                    {% else %}
+                    <a href="/reply/add">답글 달기</a>
+                    {% endif %}
+                </div>
+            </div>
+            {% for in replyrist %}
+            <div class="card-body">
+                {% if userid == reply_userid %}
+                <a href="/comment/update">답글 수정</a>
+                <a href="/comment/delete">답글 삭제</a>
+                {% endif %}
+            </div>
+            {% endfor%}
+        </div>
+        {% endfor %}
+        <div class="card">
+            <div class="card-header">댓글 쓰기</div>
+            <div class="card-body">
+                <form method="post">
+                    <textarea name="comment" id="comment" cols="30" rows="10"></textarea>
+                    <button class="btn btn-outline-secondary" type="addcommentbtn">등록하기</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}
