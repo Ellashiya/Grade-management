@@ -97,8 +97,9 @@
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            {% for in midtermlist %}
-                                            {% endfor %}
+                                            {% for item in midtermlist %}
+                                            
+                                          {% endfor %}
                                         </tr>
                                     </tbody>
                                 </table>
@@ -174,7 +175,7 @@
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            {% for in finaltermlist %}
+                                            {% for item in finaltermlist %}
                                             {% endfor %}
                                         </tr>
                                     </tbody>
@@ -222,7 +223,7 @@
                                         </form>
                                         <!-- 분석 내용 텍스트 -->
                                         <p class="mt-4">
-                                            {{"평균이 작년보다" + <code>rate + "%"</code> + result + "했습니다."}}
+                                            {{"평균이 작년보다 " + rate|string + "%" + (result or "기본값") + "했습니다."}}
                                         </p>
                                     </div>
                                 </div>
@@ -308,7 +309,7 @@
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            {% for in mocklist %}
+                                            {% for item in finaltermlist %}
                                             {% endfor %}
                                         </tr>
                                     </tbody>
@@ -362,7 +363,7 @@
                                         </form>
                                         <!-- 분석 내용 텍스트 -->
                                         <p class="mt-4">
-                                            {{"평균이 작년보다" + <code>rate + "%"</code> + result + "했습니다."}}
+                                            {{"평균이 작년보다 " + rate|string + "%" + (result or "기본값") + "했습니다."}}
                                         </p>
                                     </div>
                                 </div>
