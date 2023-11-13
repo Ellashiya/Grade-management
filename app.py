@@ -16,7 +16,7 @@ CORS(app)
 app.secret_key = 'guide'
 
 # 블루 프린트 적용
-app.register_blueprint(guide.guide_view, url_prefix='/guide')
+app.register_blueprint(guide.guide_view, url_prefix='/')
 
 # flask-login
 login_manager = LoginManager()
@@ -38,29 +38,9 @@ db.init_app(app)
 with app.app_context():
     db.create_all()
 
-@app.route('/planner')
-def planner():
-    return render_template('layout-planner.html')
-    
-@app.route('/grades')
-def grades():
-    rate = 10
-    return render_template('layout-grades.html',rate=rate)
 
-@app.route('/board')
-def board():
-    return render_template('layout-board.html')
-
-@app.route('/login')  
-def login():
-    return render_template('login.html')
-
-@app.route('/')
-def index():
-    return render_template('index.html')
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port='1114', debug=True) 
-    # http://localhost:1114/guide/
 
     

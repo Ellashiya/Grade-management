@@ -3,12 +3,28 @@ from flask_login import current_user, login_required, login_user, logout_user
 from werkzeug.security import generate_password_hash, check_password_hash
 
 
-guide_view = Blueprint('guide_view', __name__)
+guide_view = Blueprint('guide_view', __name__, url_prefix='/')
 
-#메인
-@guide_view.route('/main')
-def main():
-    return render_template("index.html")
+@guide_view.route('/planner')
+def planner():
+    return render_template('layout-planner.html')
+    
+@guide_view.route('/grades')
+def grades():
+    rate = 10
+    return render_template('layout-grades.html',rate=rate)
+
+@guide_view.route('/board')
+def board():
+    return render_template('layout-board.html')
+
+@guide_view.route('/login')  
+def login():
+    return render_template('login.html')
+
+@guide_view.route('/')
+def index():
+    return render_template('index.html')
 
 # #회원가입
 # @guide_view.route('/register')
