@@ -20,12 +20,12 @@ class User(db.Model):
     email = db.Column(db.String(50), unique = True)
     school = db.Column(db.String(50))
 
-    # plans = db.relationship('Plans', backerf='plan')
-    # gradesmange = db.relationship('GradesMange', backerf='gradesmanage')
-    # schoolgrades = db.relationship('SchoolGrades', backerf='schoolgrade')
-    # mockgrades = db.relationship('MockGrades', backerf='mockgrade')
-    # boards = db.relationship('Boards', backref='board')
-    # comments = db.relationship('Comments', backref='comment')
+    plans = db.relationship('Plans', backref='plan')
+    gradesmange = db.relationship('GradesMange', backref='gradesmanage')
+    schoolgrades = db.relationship('SchoolGrades', backref='schoolgrade')
+    mockgrades = db.relationship('MockGrades', backref='mockgrade')
+    boards = db.relationship('Boards', backref='board')
+    comments = db.relationship('Comments', backref='comment')
     
 class Plans(db.Model):
     plan_id = db.Column(db.Integer, primary_key = True)
@@ -76,7 +76,7 @@ class Boards(db.Model):
     update_date = db.Column(db.DateTime, default=datetime.utcnow)
     views = db.Column(db.Integer, default = 0)
 
-    # comments = db.relationship('Comments', backref='comment')
+    comments = db.relationship('Comments', backref='comment')
 
 class Comments(db.Model):
     comment_id = db.Column(db.Integer, primary_key = True)
@@ -86,7 +86,7 @@ class Comments(db.Model):
     upload_date = db.Column(db.DateTime, default=datetime.utcnow)
     update_date = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
-#     # replys = db.relationship('Replys', backref='reply')
+    replys = db.relationship('Replys', backref='reply')
 
 class Replys(db.Model):
     reply_id = db.Column(db.Integer, primary_key = True)
