@@ -1,0 +1,40 @@
+{% extends 'index.html'%} {% block content %}
+<main>
+  <div class="container-fluid px-4">
+    <h1 class="mt-4">길잡이</h1>
+    <ol class="breadcrumb mb-4">
+      <li class="breadcrumb-item">
+        &nbsp;<a href="/" style="text-decoration: none"
+          ><i class="fa-solid fa-house-chimney"></i>&nbsp;메인화면</a
+        >
+      </li>
+      <li class="breadcrumb-item active">플래너</li>
+    </ol>
+    <div class="card">
+      <div class="card-body">{{"추천 문제"}}</div>
+    </div>
+    <div class="card">
+      <div class="card-body text-center">
+        <table class="table table-striped w-auto" id="board">
+          <thead>
+            <!-- 필드 명 -->
+            <tr>
+              <th>연도</th>
+              <th>월</th>
+              <th>학년</th>
+              <th>과목</th>
+              <th>문제번호</th>
+              <th>조회수</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              {% for item in board %} {% endfor %}
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</main>
+{% endblock %}
