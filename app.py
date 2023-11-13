@@ -3,7 +3,7 @@ from flask_login import LoginManager
 from flask_cors import CORS
 from guide_view import guide # (블루프린트)guide_view/guide.py 임포트
 from guide_control.user_mgmt import User
-from flask_sqlalchemy import SQLAlchemy
+from db_model.models import setup_db
 import os
 
 
@@ -31,16 +31,9 @@ def load_user(user_id):
 def unauthorized():
     return make_response(jsonify(success=False), 401)
 
-# db
-db = SQLAlchemy()
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///database.db"
-db.init_app(app)
-with app.app_context():
-    db.create_all()
-
-
-
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port='1114', debug=True) 
+    setup_db(app)
+    app.run(host='0.0.0.0', port='1114', debug=True)
+     
 
     
