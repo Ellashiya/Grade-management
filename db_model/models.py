@@ -29,7 +29,7 @@ class User(db.Model):
     
 class Plans(db.Model):
     plan_id = db.Column(db.Integer, primary_key = True)
-    #user_id = db.Column(db.String(20), db.ForeignKey('users.id')) #오류
+    user_id = db.Column(db.String(20), db.ForeignKey('User.id')) 
     content = db.Column(db.String(50))
     dodone= db.Column(db.String(4))
     d_day = db.Column(db.DateTime, default=datetime.utcnow)
@@ -37,15 +37,15 @@ class Plans(db.Model):
 
 class GradesManage(db.Model):
     manage_id = db.Column(db.Integer, primary_key = True)
-    # user_id = db.Column(db.String(20), db.ForeignKey('users.id'))
-    # schoolgrade_id = db.Column(db.Integer, db.ForeignKey('schoolgrades.schoolgrade_id'))
-    # mockgrade_id = db.Column(db.Integer, db.ForeignKey('mockgrades.mockgrade_id'))
+    user_id = db.Column(db.String(20), db.ForeignKey('User.id'))
+    schoolgrade_id = db.Column(db.Integer, db.ForeignKey('SchoolGrades.schoolgrade_id'))
+    mockgrade_id = db.Column(db.Integer, db.ForeignKey('MockGrades.mockgrade_id'))
     avr_school = db.Column(db.Float)
     avr_mock = db.Column(db.Float)
 
 class SchoolGrades(db.Model):
     schoolgrade_id = db.Column(db.Integer, primary_key = True)
-    # user_id = db.Column(db.String(20), db.ForeignKey('users.id'))
+    user_id = db.Column(db.String(20), db.ForeignKey('User.id'))
     grade = db.Column(db.Integer, nullable = False)
     year = db.Column(db.DateTime, default=datetime.year)
     semester = db.Column(db.Integer, default=1)
@@ -59,7 +59,7 @@ class SchoolGrades(db.Model):
 
 class MockGrades(db.Model):
     mockgrade_id = db.Column(db.Integer, primary_key = True)
-    # user_id = db.Column(db.String(20), db.ForeignKey('users.id'))
+    user_id = db.Column(db.String(20), db.ForeignKey('User.id'))
     grade = db.Column(db.Integer, nullable = False)
     year = db.Column(db.DateTime, default=datetime.year)
     month = db.Column(db.Integer, default=datetime.month)
@@ -69,7 +69,7 @@ class MockGrades(db.Model):
 
 class Boards(db.Model):
     board_id = db.Column(db.Integer, primary_key = True)
-    # user_id = db.Column(db.String(20), db.ForeignKey('users.id'))
+    user_id = db.Column(db.String(20), db.ForeignKey('User.id'))
     title = db.Column(db.String(50), nullable = False)
     content = db.Column(db.Text)
     upload_date = db.Column(db.DateTime, default=datetime.utcnow)
@@ -80,8 +80,8 @@ class Boards(db.Model):
 
 class Comments(db.Model):
     comment_id = db.Column(db.Integer, primary_key = True)
-    # user_id = db.Column(db.String(20), db.ForeignKey('users.id'))
-    # board_id = db.Column(db.Integer, db.ForeignKey('boards.board_id'))
+    user_id = db.Column(db.String(20), db.ForeignKey('User.id'))
+    board_id = db.Column(db.Integer, db.ForeignKey('Boards.board_id'))
     content = db.Column(db.Text)
     upload_date = db.Column(db.DateTime, default=datetime.utcnow)
     update_date = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
@@ -90,9 +90,9 @@ class Comments(db.Model):
 
 class Replys(db.Model):
     reply_id = db.Column(db.Integer, primary_key = True)
-    # user_id = db.Column(db.String(20), db.ForeignKey('users.id'))
-    # comment_id = db.Column(db.Integer, db.ForeignKey('comments.comment_id'))
-    # board_id = db.Column(db.Integer, db.ForeignKey('boards.board_id'))
+    user_id = db.Column(db.String(20), db.ForeignKey('User.id'))
+    comment_id = db.Column(db.Integer, db.ForeignKey('Comments.comment_id'))
+    board_id = db.Column(db.Integer, db.ForeignKey('Boards.board_id'))
     content = db.Column(db.Text)
     upload_date = db.Column(db.DateTime, default=datetime.utcnow)
     update_date = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
