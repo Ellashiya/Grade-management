@@ -23,10 +23,12 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.session_protection = 'strong'
 
+# 유저 정보 호출
 @login_manager.user_loader
 def load_user(user_id):
     return User.get(user_id)
 
+# 로그인 후 접속가능한 기능 구현시 필요
 @login_manager.unauthorized_handler
 def unauthorized():
     return make_response(jsonify(success=False), 401)
