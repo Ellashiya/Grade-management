@@ -25,7 +25,7 @@ login_manager.session_protection = 'strong'
 # 유저 정보 호출
 @login_manager.user_loader
 def load_user(user_id):
-    return User.get(user_id)
+    return User.query.filter(User.id == user_id).first()
 
 # 로그인 후 접속가능한 기능 구현시 필요
 @login_manager.unauthorized_handler

@@ -1,5 +1,6 @@
 from datetime import datetime
 from flask_sqlalchemy import SQLAlchemy
+from flask_login import UserMixin
 
 db = SQLAlchemy()
 
@@ -11,7 +12,7 @@ def setup_db(app):
     with app.app_context():
         db.create_all()
 
-class User(db.Model):
+class User(db.Model, UserMixin):
     '''사용자(아이디, 비밀번호, 이름, 나이, 닉네임, 이메일, 학교)'''
     id = db.Column(db.String(20), primary_key = True)
     password = db.Column(db.String(20), nullable = False)
