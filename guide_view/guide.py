@@ -5,6 +5,10 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 guide_view = Blueprint('guide_view', __name__, url_prefix='/')
 
+@guide_view.route('/')
+def index():
+    return render_template('index.html')
+
 @guide_view.route('/planner')
 def planner():
     return render_template('layout-planner.html')
@@ -22,9 +26,9 @@ def board():
 def login():
     return render_template('login.html')
 
-@guide_view.route('/')
-def index():
-    return render_template('index.html')
+@guide_view.route('/register')
+def register():
+    return render_template('register.html')
 
 # #회원가입
 # @guide_view.route('/register')
