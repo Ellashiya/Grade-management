@@ -2,8 +2,7 @@ from flask import Flask, jsonify, request, render_template, make_response
 from flask_login import LoginManager
 from flask_cors import CORS
 from guide_view import guide # (블루프린트)guide_view/guide.py 임포트
-from guide_control.user_mgmt import User
-from db_model.models import setup_db
+from db_model.models import setup_db, User
 import os
 
 
