@@ -1,8 +1,8 @@
-from flask import Flask, Blueprint, request, render_template, flash, redirect, url_for, jsonify
+from flask import Flask, Blueprint, request, render_template, flash, redirect, url_for, session, jsonify
 from flask_login import current_user, login_required, login_user, logout_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from db_model.models import User, db
-from forms import UserForm
+from forms import UserForm, LoginForm
 
 
 guide_view = Blueprint('guide_view', __name__, url_prefix='/')
@@ -24,14 +24,27 @@ def grades():
 def board():
     return render_template('layout-board.html')
 
-@guide_view.route('/login')  
+@guide_view.route('/login', methods=['GET', 'POST'])  
 def login():
-    return render_template('login.html')
+    form = LoginForm()
+    if request.method == 'POST' and form.validate_on_submit():
+        error = None
+        user = User.query.filter_by(id=form.id.data).first()
+        if not user:
+            error = "존재하지 않는 사용자입니다."
+        elif not check_password_hash(user.password, form.password.data):
+            error = "비밀번호가 올바르지 않습니다."
+        if error is None:
+            session.clear()
+            session['id'] = user.id
+            return redirect(url_for('guide_view.index'))
+        flash(error)
+    return render_template('login.html', form=form)
 
 @guide_view.route('/register', methods=['GET', 'POST'])
 def register():
     form = UserForm()
-    if form.validate_on_submit():
+    if form.validate_on_submit() and request.method == 'POST':
         user = User.query.filter_by(id=form.id.data).first()
         if not user: # 아이디가 존재하지 않을 경우 추가
             user = User(
@@ -51,28 +64,6 @@ def register():
               
     return render_template("register.html", form=form)
 
-
-# #로그인
-# @guide_view.route('/login', methods=['GET', 'POST'])
-# def login():
-#     if request.method == "POST":
-#         # 데이터 분할
-#         id = request.form.get('id')
-#         password = request.form.get('password1')
-
-#         # DB 탐색
-#         user = Users.query.filter_by(id=id).first()
-#         if user:
-#             if check_password_hash(user.password, password):
-#                 flash('로그인 완료', category='success')
-#                 login_user(user, remember=True)
-#                 return redirect(url_for('guide.main'))
-#             else:
-#                 flash('비밀번호가 다릅니다.', category='error')
-#         else:
-#             flash('해당 아이디가 존재하지 않습니다.', category='error')
-
-#     return render_template('login.html')
 
 # #로그아웃
 # @guide_view.route('/logout', methods=['GET', 'POST'])
