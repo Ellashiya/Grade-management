@@ -3,6 +3,7 @@ from flask_login import LoginManager
 from flask_cors import CORS
 from guide_view import guide # (블루프린트)guide_view/guide.py 임포트
 from db_model.models import setup_db, User
+from flask_wtf import CSRFProtect
 import os
 
 
@@ -16,6 +17,9 @@ app.secret_key = 'guide'
 
 # 블루 프린트 적용
 app.register_blueprint(guide.guide_view, url_prefix='/')
+
+# CSRFProtect
+csrf = CSRFProtect()
 
 # flask-login
 login_manager = LoginManager()

@@ -1,6 +1,8 @@
 from flask import Flask, Blueprint, request, render_template, flash, redirect, url_for, jsonify
 from flask_login import current_user, login_required, login_user, logout_user
 from werkzeug.security import generate_password_hash, check_password_hash
+from db_model.models import User, db
+from forms import UserForm
 
 
 guide_view = Blueprint('guide_view', __name__, url_prefix='/')
@@ -26,51 +28,29 @@ def board():
 def login():
     return render_template('login.html')
 
-@guide_view.route('/register')
+@guide_view.route('/register', methods=['GET', 'POST'])
 def register():
-    return render_template('register.html')
+    form = UserForm()
+    if form.validate_on_submit():
+        user = User.query.filter_by(id=form.id.data).first()
+        if not user: # 아이디가 존재하지 않을 경우 추가
+            user = User(
+                id = form.id.data,
+                password = form.password.data,
+                name = form.name.data,
+                age = form.age.data,
+                nickname = form.nickname.data,
+                email = form.email.data,
+                school = form.school.data
+            )
+            db.session.add(user)
+            db.session.commit()
+            return redirect(url_for('guide_view.index'))
+        else:
+            flash('이미 존재하는 사용자입니다.') 
+              
+    return render_template("register.html", form=form)
 
-# #회원가입
-# @guide_view.route('/register')
-# def register():
-#     if request.method == "POST":
-#         # 데이터 분할
-#         name = request.form.get('name')
-#         nickname = request.form.get('nickname')
-#         age = request.form.get('age')
-#         email = request.form.get('email')
-#         id = request.form.get('id')
-#         password = request.form.get('password1')
-#         password_check = request.form.get('password_check')
-#         school = request.form.get('school')
-
-#         # 유효성 검사
-#         user = Users.query.filter_by(id=id).first()
-#         if user:
-#             flash('이미 존재하는 아이디입니다.',category='error')
-#         elif len(nickname) < 2 :
-#             flash('닉네임은 2자 이상입니다', category='error')
-#         elif password != password_check:
-#             flash('비밀번호가 서로 다릅니다', category='error')
-#         elif len(password) < 7:
-#             flash('비밀번호가 너무 짧습니다', category='error')
-#         else:
-#             # DB에 저장
-#             new_user = Users(name=name, 
-#                             nickname=nickname,
-#                             age=age,
-#                             email=email,
-#                             id=id, 
-#                             password=generate_password_hash(password, method='sha256'))
-#             db.session.add(new_user)
-#             db.session.commit()
-
-#             # 자동 로그인
-#             login_user(new_user, remember=True)
-#             flash('회원가입 완료', category='success')
-
-#             return redirect(url_for('guide.main'))
-#     return render_template('register.html')
 
 # #로그인
 # @guide_view.route('/login', methods=['GET', 'POST'])

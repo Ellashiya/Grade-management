@@ -13,7 +13,15 @@ def setup_db(app):
         db.create_all()
 
 class User(db.Model, UserMixin):
-    '''사용자(아이디, 비밀번호, 이름, 나이, 닉네임, 이메일, 학교)'''
+    '''
+    아이디(id) : String 20,
+    비밀번호(password) : String 20,
+    이름(name) : String 10,
+    나이(age) : Integer,
+    닉네임(nickname) : String 20,
+    이메일(email) : String 50,
+    학교(school) : String 50
+    '''
     id = db.Column(db.String(20), primary_key = True)
     password = db.Column(db.String(20), nullable = False)
     name = db.Column(db.String(10), nullable = False)
