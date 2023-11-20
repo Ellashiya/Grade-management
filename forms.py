@@ -70,3 +70,20 @@ class UserForm(FlaskForm):
     
     submit = SubmitField("신규 등록")
     
+class LoginForm(FlaskForm):
+    # 아이디
+    id = StringField(
+        "id",
+        validators=[
+            DataRequired(message="아이디는 필수입니다."), 
+            Length(max=20, message="20글자 이내로 입력해주세요. ")
+        ]
+    )
+    # 비밀번호
+    password = PasswordField(
+        "password",
+        validators=[
+            DataRequired(message="비밀번호는 필수입니다.")
+        ]
+    )
+    
