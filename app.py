@@ -19,7 +19,7 @@ app.secret_key = 'guide'
 app.register_blueprint(guide.guide_view, url_prefix='/')
 
 # CSRFProtect
-csrf = CSRFProtect()
+csrf = CSRFProtect(app)
 
 # flask-login
 login_manager = LoginManager()
@@ -39,6 +39,3 @@ def unauthorized():
 if __name__ == '__main__':
     setup_db(app)
     app.run(host='0.0.0.0', port='1114', debug=True)
-     
-
-    

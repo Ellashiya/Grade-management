@@ -35,11 +35,16 @@ def login():
         elif not check_password_hash(user.password, form.password.data):
             error = "비밀번호가 올바르지 않습니다."
         if error is None:
-            session.clear()
-            session['id'] = user.id
+            login_user(user)
             return redirect(url_for('guide_view.index'))
         flash(error)
     return render_template('login.html', form=form)
+
+@guide_view.route('/logout', methods=['GET', 'POST'])
+@login_required
+def logout():
+	logout_user()
+	return redirect(url_for('guide_view.index'))
 
 @guide_view.route('/register', methods=['GET', 'POST'])
 def register():
@@ -47,9 +52,10 @@ def register():
     if form.validate_on_submit() and request.method == 'POST':
         user = User.query.filter_by(id=form.id.data).first()
         if not user: # 아이디가 존재하지 않을 경우 추가
+            hashed_password = generate_password_hash(form.password.data, method='pbkdf2:sha256')
             user = User(
                 id = form.id.data,
-                password = form.password.data,
+                password = hashed_password,
                 name = form.name.data,
                 age = form.age.data,
                 nickname = form.nickname.data,

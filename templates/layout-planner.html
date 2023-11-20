@@ -5,32 +5,31 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta
       name="viewport"
-      content="width=device-width, initial-scale=1, shrink-to-fit=no"
-    />
-    <meta name="description" content="" />
-    <meta name="author" content="" />
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <meta name="description" content=""/>
+    <meta name="author" content=""/>
     <title>길잡이</title>
     <link
       href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css"
-      rel="stylesheet"
-    />
-    <link href="/static/styles.css" rel="stylesheet" />
+      rel="stylesheet"/>
+    <link href="/static/styles.css" rel="stylesheet"/>
     <script
       src="https://use.fontawesome.com/releases/v6.3.0/js/all.js"
-      crossorigin="anonymous"
-    ></script>
+      crossorigin="anonymous">
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.9/index.global.min.js"></script>
     <script>
       document.addEventListener("DOMContentLoaded", function () {
         var calendarEl = document.getElementById("calendar");
         var calendar = new FullCalendar.Calendar(calendarEl, {
           initialView: "dayGridMonth",
+          selectable: true,
+          locale: 'ko',
         });
         calendar.render();
       });
     </script>
   </head>
-
   <body class="sb-nav-fixed">
     <!-- 상단 메뉴 -->
     <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
@@ -44,25 +43,17 @@
             href="#"
             role="button"
             data-bs-toggle="dropdown"
-            aria-expanded="false"
-            ><i class="fas fa-user fa-fw"></i
-          ></a>
+            aria-expanded="false">
+            <i class="fas fa-user fa-fw"></i>
+          </a>
           <ul
             class="dropdown-menu dropdown-menu-end"
-            aria-labelledby="navbarDropdown"
-          >
-            {% if login == True %}
-            <li>
-              <a class="dropdown-item" href="#"
-                ><i class="fa-solid fa-right-from-bracket"></i>&nbsp;로그아웃</a
-              >
-            </li>
+            aria-labelledby="navbarDropdown">
+            {% if current_user.is_authenticated %}
+            <li><a class="dropdown-item" href="/logout"><i class="fa-solid fa-right-from-bracket"></i>&nbsp;로그아웃</a></li>
             {% else %}
-            <li>
-              <a class="dropdown-item" href="/login.html"
-                ><i class="fa-solid fa-right-from-bracket"></i>&nbsp;로그인</a
-              >
-            </li>
+            <li><a class="dropdown-item" href="/login"><i class="fa-solid fa-right-from-bracket"></i>&nbsp;로그인</a></li>
+            <li><a class="dropdown-item" href="/register"><i class="fa-solid fa-id-card"></i>&nbsp;회원가입</a></li>
             {% endif %}
           </ul>
         </li>
@@ -114,10 +105,10 @@
           <div class="container-fluid px-4">
             <h1 class="mt-4">길잡이</h1>
             <ol class="breadcrumb mb-4">
-              <li class="breadcrumb-item">
-                &nbsp;<a href="/" style="text-decoration: none"
-                  ><i class="fa-solid fa-house-chimney"></i>&nbsp;메인화면</a
-                >
+              <li class="breadcrumb-item">&nbsp;
+                <a href="/" style="text-decoration: none">
+                  <i class="fa-solid fa-house-chimney"></i>&nbsp;메인화면
+                </a>
               </li>
               <li class="breadcrumb-item active">플래너</li>
             </ol>
@@ -147,8 +138,7 @@
                     <input
                       class="form-control"
                       type="todoitem"
-                      placeholder="입력하세요"
-                    />
+                      placeholder="입력하세요"/>
                     <div class="btn-group" role="group">
                       <input
                         type="radio"
@@ -156,21 +146,15 @@
                         name="btnradio"
                         id="todoradio"
                         autocomplete="off"
-                        checked
-                      />
-                      <label class="btn btn-outline-dark" for="todoradio"
-                        >할일</label
-                      >
+                        checked/>
+                      <label class="btn btn-outline-dark" for="todoradio">할일</label>
                       <input
                         type="radio"
                         class="btn-check"
                         name="btnradio"
                         id="doneradio"
-                        autocomplete="off"
-                      />
-                      <label class="btn btn-outline-dark" for="doneradio"
-                        >한일</label
-                      >
+                        autocomplete="off"/>
+                      <label class="btn btn-outline-dark" for="doneradio">한일</label>
                     </div>
                     <button class="btn btn-outline-primary" type="additembtn">
                       추가하기
@@ -190,9 +174,7 @@
         <!-- 하단 -->
         <footer class="py-4 bg-light mt-auto">
           <div class="container-fluid px-4">
-            <div
-              class="d-flex align-items-center justify-content-between small"
-            >
+            <div class="d-flex align-items-center justify-content-between small">
               <div class="text-muted">Copyright &copy; 길잡이 B조</div>
               <div>
                 <a href="#">Privacy Policy</a>
@@ -206,19 +188,12 @@
     </div>
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
-      crossorigin="anonymous"
-    ></script>
-    <script src="js/scripts.js"></script>
+      crossorigin="anonymous"></script>
     <script
       src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"
-      crossorigin="anonymous"
-    ></script>
-    <script src="assets/demo/chart-area-demo.js"></script>
-    <script src="assets/demo/chart-bar-demo.js"></script>
+      crossorigin="anonymous"></script>
     <script
       src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js"
-      crossorigin="anonymous"
-    ></script>
-    <script src="js/datatables-simple-demo.js"></script>
+      crossorigin="anonymous"></script>
   </body>
 </html>
