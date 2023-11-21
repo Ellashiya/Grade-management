@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta
       name="viewport"
       content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
@@ -21,12 +21,36 @@
     <script>
       document.addEventListener("DOMContentLoaded", function () {
         var calendarEl = document.getElementById("calendar");
+
         var calendar = new FullCalendar.Calendar(calendarEl, {
           initialView: "dayGridMonth",
           selectable: true,
           locale: 'ko',
+
+          dateClick: function (info) {
+            var selectedDate = info.date;
+            updateSelectedDate(selectedDate);
+          }
         });
+        //현재 날짜
+        var today = new Date();
+        updateSelectedDate(today);
+
         calendar.render();
+
+        function updateSelectedDate(selectedDate) {
+          var year = selectedDate.getFullYear();
+          var month = selectedDate.getMonth() + 1;
+          var day = selectedDate.getDate();
+          var dayOfWeek = selectedDate.toLocaleDateString('ko-KR', { weekday: 'long' });
+          //hidden field 내용
+          var dateString = selectedDate
+
+          // 선택한 날짜를 페이지에 표시
+          document.getElementById("selectDay").innerText = `${month}월 ${day}일 ${dayOfWeek}`;
+          //hidden field 내용
+          document.getElementById('set_date').value = dateString;
+        }
       });
     </script>
   </head>
@@ -124,39 +148,46 @@
               <!-- TodoList -->
               <div class="col-md-4">
                 <!-- 달력에서 선택된 날짜 가져올 것 -->
-                {% if selectday %}
-                <h3>
-                  {{selectday.month}}월 {{selectday.date}}일
-                  {{selectday.day}}요일
+                <h3 id="selectDay">
+                  {% if selectday %}
+                    {{selectday.month}}월 {{selectday.date}}일 {{selectday.day}}요일
+                  {% else %}
+                    <!-- 현재 날짜 -->
+                    {{current_date.month}}월 {{current_date.date}}일 {{current_date.day}}요일
+                  {% endif %}
                 </h3>
-                {% else %}
-                <p>날짜가 선택되지 않았습니다.</p>
-                {% endif %}
                 <!-- 할일/한일 입력부분 -->
-                <form>
+                <form method="post">
+                  {{ form.csrf_token }}
+                  <input type="hidden" name="set_date" id="set_date" value="{{ set_date or '' }}" />
                   <div class="input-group mt-4 mb-2">
                     <input
                       class="form-control"
-                      type="todoitem"
+                      id="content"
+                      name="content"
+                      type="text"
+                      value="{{ form.content.data or '' }}"
                       placeholder="입력하세요"/>
                     <div class="btn-group" role="group">
                       <input
                         type="radio"
                         class="btn-check"
-                        name="btnradio"
+                        name="dodone"
                         id="todoradio"
+                        value="do"
                         autocomplete="off"
                         checked/>
                       <label class="btn btn-outline-dark" for="todoradio">할일</label>
                       <input
                         type="radio"
                         class="btn-check"
-                        name="btnradio"
+                        name="dodone"
                         id="doneradio"
+                        value="done"
                         autocomplete="off"/>
                       <label class="btn btn-outline-dark" for="doneradio">한일</label>
                     </div>
-                    <button class="btn btn-outline-primary" type="additembtn">
+                    <button class="btn btn-outline-primary" type="submit">
                       추가하기
                     </button>
                   </div>
@@ -164,7 +195,9 @@
                 <!-- TodoList 수정/디데이 설정 -->
                 <div class="card mb-4">
                   <div class="card-body">
-                    {% for item in todolist %} {% endfor %}
+                    {% for item in todolist %}
+                      
+                    {% endfor %}
                   </div>
                 </div>
               </div>

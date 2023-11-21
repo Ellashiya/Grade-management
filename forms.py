@@ -1,6 +1,7 @@
 from flask_wtf import FlaskForm
-from wtforms import PasswordField, StringField, SubmitField, IntegerField
+from wtforms import PasswordField, StringField, SubmitField, IntegerField, HiddenField, RadioField, DateField
 from wtforms.validators import DataRequired, Email, Length, EqualTo
+from datetime import datetime
 
 class UserForm(FlaskForm):
     # 아이디
@@ -86,4 +87,32 @@ class LoginForm(FlaskForm):
             DataRequired(message="비밀번호는 필수입니다.")
         ]
     )
-    
+
+class PlannerForm(FlaskForm):
+    # 내용
+    content = StringField(
+        "content",
+        validators=[
+            DataRequired(message="내용을 입력해주세요."), 
+            Length(max=50, message="50글자 이내로 입력해주세요. ")
+        ]
+    )
+    # 할일/한일 구분
+    dodone = RadioField(
+        "dodone",
+        choices=[('do','do'),('done','done')]
+    )
+    # 등록일
+    set_date = HiddenField(
+        "set_date",
+        validators=[
+            DataRequired(),
+        ]
+    )
+
+    submit = SubmitField("할일/한일 등록")
+
+    def validate_set_date(self, field):
+        cleaned_date_string = field.data.replace('(한국 표준시)', '').strip()
+        parsed_date = datetime.strptime(cleaned_date_string, '%a %b %d %Y %H:%M:%S %Z%z')
+        field.data = parsed_date

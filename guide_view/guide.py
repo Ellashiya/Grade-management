@@ -1,8 +1,9 @@
 from flask import Flask, Blueprint, request, render_template, flash, redirect, url_for, session, jsonify
 from flask_login import current_user, login_required, login_user, logout_user
 from werkzeug.security import generate_password_hash, check_password_hash
-from db_model.models import User, db
-from forms import UserForm, LoginForm
+from db_model.models import db, User, Plans
+from datetime import datetime
+from forms import UserForm, LoginForm, PlannerForm
 
 
 guide_view = Blueprint('guide_view', __name__, url_prefix='/')
@@ -11,9 +12,24 @@ guide_view = Blueprint('guide_view', __name__, url_prefix='/')
 def index():
     return render_template('index.html')
 
-@guide_view.route('/planner')
+@guide_view.route('/planner', methods=['GET', 'POST'])
 def planner():
-    return render_template('layout-planner.html')
+    current_date = datetime.now()
+    form = PlannerForm()
+    if form.validate_on_submit() and request.method == 'POST':
+        new_plan = Plans(
+            user_id = current_user.id,
+            content = form.content.data,
+            dodone = form.dodone.data,
+            set_date = form.set_date.data
+        )
+        db.session.add(new_plan)
+        db.session.commit()
+        return redirect(url_for('guide_view.planner'))
+    
+    todolist = Plans.query.filter_by(user_id=current_user.id).all()
+    
+    return render_template('layout-planner.html', current_date=current_date, form=form, todolist=todolist)
     
 @guide_view.route('/grades')
 def grades():
@@ -69,14 +85,6 @@ def register():
             flash('이미 존재하는 사용자입니다.') 
               
     return render_template("register.html", form=form)
-
-
-# #로그아웃
-# @guide_view.route('/logout', methods=['GET', 'POST'])
-# @login_required
-# def logout():
-# 	logout_user()
-# 	return redirect(url_for('guide.login'))
 
 # #비밀번호 찾기
 # @guide_view.route('/password', methods=['GET', 'POST'])

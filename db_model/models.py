@@ -62,7 +62,7 @@ class SchoolGrades(db.Model):
     schoolgrade_id = db.Column(db.Integer, primary_key = True)
     user_id = db.Column(db.String(20), db.ForeignKey('user.id'))
     grade = db.Column(db.Integer, nullable = False)
-    year = db.Column(db.DateTime, default=datetime.year)
+    year = db.Column(db.DateTime, default=datetime.utcnow().year)
     semester = db.Column(db.Integer, default=1)
     ismidterm = db.Column(db.String(3), default='Yes')
     subject = db.Column(db.String(20), nullable = False)
