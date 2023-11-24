@@ -28,7 +28,7 @@ def planner():
         )
         db.session.add(new_plan)
         db.session.commit()
-        return redirect(url_for('guide_view.planner'), todolist=todolist)
+        return redirect(url_for('guide_view.planner'))
     
     return render_template('layout-planner.html', current_date=current_date, form=form, todolist=todolist)
     

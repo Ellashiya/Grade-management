@@ -30,8 +30,8 @@
           events: [
             {% for item in todolist %}
               {
-                title : '{{item.content}}',
-                start : new Date('{{ item.set_date }}')
+                title : '{{ item.content }}',
+                start : '{{ item.set_date }}'
               },
             {% endfor %}
           ],
@@ -39,6 +39,8 @@
           dateClick: function (info) {
             var selectedDate = info.date;
             updateSelectedDate(selectedDate);
+            updateEvents(selectedDate);
+            
           }
         });
         //현재 날짜
@@ -47,13 +49,27 @@
 
         calendar.render();
 
+        function updateEvents(selectedDate){
+          let events_list = document.getElementById("events_list");
+          events_list.innerHTML = '<ul>\
+                      {% for item in todolist %}\
+                      {% set date = item.set_date | string() %}\ 
+                      {% set date = date[0:10] %}\
+                      {% set cur = current_date | string() %}\ 
+                      {% set cur = cur[0:10] %}\
+                      {% if date == cur %}\
+                      <li> {{ item.content }}</li>\
+                      {% endif %}\
+                      {% endfor %}\
+                    </ul>';
+        }
         function updateSelectedDate(selectedDate) {
           var year = selectedDate.getFullYear();
           var month = selectedDate.getMonth() + 1;
           var day = selectedDate.getDate();
           var dayOfWeek = selectedDate.toLocaleDateString('ko-KR', { weekday: 'long' });
           //hidden field 내용
-          var dateString = selectedDate
+          var dateString = selectedDate;
 
           // 선택한 날짜를 페이지에 표시
           document.getElementById("selectDay").innerText = `${month}월 ${day}일 ${dayOfWeek}`;
@@ -199,12 +215,34 @@
                     <button class="btn btn-outline-primary" type="submit">
                       추가하기
                     </button>
+                  </div>               
+                <!-- TodoList 수정/디데이 설정 -->
+                <div class="card mb-4">                  
+                  <div class="card-body" id="todolist-container">
+                    <div id="events_list">
+                      <ul>
+                        <!--
+                          date : db 안의 날짜 데이터
+                          cur : html로 보내진 현재 날짜 데이터
+
+                          2023-11-18 00:00:00.000000 값을
+                          2023-11-18 로 바꿔서 비교(date->string)
+
+                          set : jinja에서 변수 설정
+                        -->
+                      {% for item in todolist %}
+                      {% set date = item.set_date | string() %} 
+                      {% set date = date[0:10] %}
+                      {% set cur = current_date | string() %} 
+                      {% set cur = cur[0:10] %}
+                      {% if date == cur %}
+                      <li> {{ item.content }}</li>
+                      {% endif %}
+                      {% endfor %}
+                    </ul>
+                    </div>
                   </div>
                 </form>
-                <!-- TodoList 수정/디데이 설정 -->
-                <div class="card mb-4">
-                  <div class="card-body" id="todolist-container">
-                  </div>
                 </div>
               </div>
             </div>
