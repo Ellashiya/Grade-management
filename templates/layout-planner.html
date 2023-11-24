@@ -51,17 +51,18 @@
 
         function updateEvents(selectedDate){
           let events_list = document.getElementById("events_list");
-          events_list.innerHTML = '<ul>\
-                      {% for item in todolist %}\
-                      {% set date = item.set_date | string() %}\ 
-                      {% set date = date[0:10] %}\
-                      {% set cur = current_date | string() %}\ 
-                      {% set cur = cur[0:10] %}\
-                      {% if date == cur %}\
-                      <li> {{ item.content }}</li>\
-                      {% endif %}\
-                      {% endfor %}\
-                    </ul>';
+
+          let year = selectedDate.getFullYear();
+          let month = selectedDate.getMonth() + 1;
+          let day = selectedDate.getDate();
+
+          let dayStr = `${year}-${month}-${day}`;
+          let input = '<ul>\n {% for item in todolist %}\n {% set date = item.set_date | string() %}\n  {% set date = date[0:10] %}\n  {% set sel = '+dayStr+' %}\n {% if date == sel %}\n <li>\n  {{ item.content }}\n </li>\n {% endif %}\n {% endfor %}\n </ul>';
+          // 수정 필요함
+             
+          let htmlData = input;
+
+          events_list.innerHTML = htmlData;
         }
         function updateSelectedDate(selectedDate) {
           var year = selectedDate.getFullYear();
