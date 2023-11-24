@@ -24,8 +24,17 @@
 
         var calendar = new FullCalendar.Calendar(calendarEl, {
           initialView: "dayGridMonth",
+          displayEventTime: false,
           selectable: true,
           locale: 'ko',
+          events: [
+            {% for item in todolist %}
+              {
+                title : '{{item.content}}',
+                start : new Date('{{ item.set_date }}')
+              },
+            {% endfor %}
+          ],
 
           dateClick: function (info) {
             var selectedDate = info.date;
@@ -194,10 +203,7 @@
                 </form>
                 <!-- TodoList 수정/디데이 설정 -->
                 <div class="card mb-4">
-                  <div class="card-body">
-                    {% for item in todolist %}
-                      
-                    {% endfor %}
+                  <div class="card-body" id="todolist-container">
                   </div>
                 </div>
               </div>

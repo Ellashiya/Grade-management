@@ -4,7 +4,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from db_model.models import db, User, Plans
 from datetime import datetime
 from forms import UserForm, LoginForm, PlannerForm
-
+import json
 
 guide_view = Blueprint('guide_view', __name__, url_prefix='/')
 
@@ -16,6 +16,9 @@ def index():
 def planner():
     current_date = datetime.now()
     form = PlannerForm()
+
+    todolist = Plans.query.filter_by(user_id=current_user.id).all()
+
     if form.validate_on_submit() and request.method == 'POST':
         new_plan = Plans(
             user_id = current_user.id,
@@ -25,9 +28,7 @@ def planner():
         )
         db.session.add(new_plan)
         db.session.commit()
-        return redirect(url_for('guide_view.planner'))
-    
-    todolist = Plans.query.filter_by(user_id=current_user.id).all()
+        return redirect(url_for('guide_view.planner'), todolist=todolist)
     
     return render_template('layout-planner.html', current_date=current_date, form=form, todolist=todolist)
     
