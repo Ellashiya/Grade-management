@@ -46,24 +46,51 @@
         //현재 날짜
         var today = new Date();
         updateSelectedDate(today);
+        updateEvents(today);
 
         calendar.render();
 
         function updateEvents(selectedDate){
           let events_list = document.getElementById("events_list");
+          events_list.innerHTML = ''; //초기화
 
+          var todolist = [
+            {% for item in todolist %}
+            {
+                title: '{{ item.content | replace("'", "\\'") }}',
+                start: '{{ item.set_date | string() }}',
+                dodone: '{{ item.dodone}}'
+            },
+            {% endfor %}
+          ];
+          
           let year = selectedDate.getFullYear();
           let month = selectedDate.getMonth() + 1;
           let day = selectedDate.getDate();
 
           let dayStr = `${year}-${month}-${day}`;
-          let input = '<ul>\n {% for item in todolist %}\n {% set date = item.set_date | string() %}\n  {% set date = date[0:10] %}\n  {% set sel = '+dayStr+' %}\n {% if date == sel %}\n <li>\n  {{ item.content }}\n </li>\n {% endif %}\n {% endfor %}\n </ul>';
-          // 수정 필요함
-             
+
+          let filteredList = [];
+          for (let i = 0; i < todolist.length; i++) {
+            let item = todolist[i];
+            let itemDate = item.start.substring(0, 10); // 시간 부분을 제외한 날짜 부분 추출
+            if (itemDate === dayStr) {
+              filteredList.push(item);
+              console.log(item);
+            }
+          }
+
+          let input = '<ul>';
+          for (let item of filteredList) {
+              input += '<li>' + item.title + '</li>';
+          }
+          input += '</ul>';
+
           let htmlData = input;
 
           events_list.innerHTML = htmlData;
         }
+
         function updateSelectedDate(selectedDate) {
           var year = selectedDate.getFullYear();
           var month = selectedDate.getMonth() + 1;
@@ -174,14 +201,7 @@
               <!-- TodoList -->
               <div class="col-md-4">
                 <!-- 달력에서 선택된 날짜 가져올 것 -->
-                <h3 id="selectDay">
-                  {% if selectday %}
-                    {{selectday.month}}월 {{selectday.date}}일 {{selectday.day}}요일
-                  {% else %}
-                    <!-- 현재 날짜 -->
-                    {{current_date.month}}월 {{current_date.date}}일 {{current_date.day}}요일
-                  {% endif %}
-                </h3>
+                <h3 id="selectDay"></h3>
                 <!-- 할일/한일 입력부분 -->
                 <form method="post">
                   {{ form.csrf_token }}
@@ -221,26 +241,6 @@
                 <div class="card mb-4">                  
                   <div class="card-body" id="todolist-container">
                     <div id="events_list">
-                      <ul>
-                        <!--
-                          date : db 안의 날짜 데이터
-                          cur : html로 보내진 현재 날짜 데이터
-
-                          2023-11-18 00:00:00.000000 값을
-                          2023-11-18 로 바꿔서 비교(date->string)
-
-                          set : jinja에서 변수 설정
-                        -->
-                      {% for item in todolist %}
-                      {% set date = item.set_date | string() %} 
-                      {% set date = date[0:10] %}
-                      {% set cur = current_date | string() %} 
-                      {% set cur = cur[0:10] %}
-                      {% if date == cur %}
-                      <li> {{ item.content }}</li>
-                      {% endif %}
-                      {% endfor %}
-                    </ul>
                     </div>
                   </div>
                 </form>
