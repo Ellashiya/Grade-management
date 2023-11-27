@@ -21,7 +21,7 @@
     <script>
       document.addEventListener("DOMContentLoaded", function () {
         var calendarEl = document.getElementById("calendar");
-
+        
         var calendar = new FullCalendar.Calendar(calendarEl, {
           initialView: "dayGridMonth",
           displayEventTime: false,
@@ -32,6 +32,7 @@
               {
                 title : '{{ item.content }}',
                 start : '{{ item.set_date }}'
+                //end : '{{ item.d_day }}'
               },
             {% endfor %}
           ],
@@ -57,9 +58,11 @@
           var todolist = [
             {% for item in todolist %}
             {
+                plan_id: '{{ item.plan_id }}',
                 title: '{{ item.content | replace("'", "\\'") }}',
                 start: '{{ item.set_date | string() }}',
-                dodone: '{{ item.dodone}}'
+                dodone: '{{ item.dodone}}',
+                d_day: '{{ item.d_day }}'
             },
             {% endfor %}
           ];
@@ -76,15 +79,37 @@
             let itemDate = item.start.substring(0, 10); // 시간 부분을 제외한 날짜 부분 추출
             if (itemDate === dayStr) {
               filteredList.push(item);
-              console.log(item);
             }
           }
 
-          let input = '<ul>';
+          let input = '<table class="table table-hover" style="width:100%">';
           for (let item of filteredList) {
-              input += '<li>' + item.title + '</li>';
+            input += '<tr>';
+            if(item.dodone == 'done'){
+              input += '<td><input type="checkbox" name="dodoneCheckbox" value="done" data-plan-id="'+ Number(item.plan_id) + '" checked></td>';
+              input += '<td class="col-md-5"><del>' + item.title + '</del></td>';
+            }
+            else {
+              input += '<td><input type="checkbox" name="dodoneCheckbox" value="do" data-plan-id="'+ Number(item.plan_id) + '"></td>';
+              input += '<td class="col-md-5">' + item.title + '</td>';
+            }
+            input += '<td><form method="POST" action="/planner/delete">{{ form.csrf_token }}';
+            input += '<input type="hidden" name="plan_id" value="' + Number(item.plan_id) + '">'
+            input += '<button class="btn btn-outline-danger w-auto">삭제</button></form></td>';
+            input += '<td><button class="btn btn-outline-primary w-auto" data-bs-toggle="modal" data-bs-target="#setDdayModal">D-day 설정</button>';
+            input += '<div class="modal" id="setDdayModal" tabindex="-1"><div class="modal-dialog modal-dialog-centered">';
+            input += '<div class="modal-content"><div class="modal-header">';
+            input += '<h1 class="modal-title fs-5 text-center">D-day 설정하기</h1>';
+            input += '<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button></div>';
+            input += '<form method="POST" action="/planner/update">{{ form.csrf_token }}';
+            input += '<input type="hidden" name="plan_id" value="' + Number(item.plan_id) + '">'
+            input += '<div class="modal-body"><div class="input-group date">';
+            input += '<input id="date-input" type="date" name="d_day" style="width:100%"/></div></div>';
+            input += '<div class="modal-footer"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>';
+            input += '<button class="btn btn-primary">설정하기</button></div></form></div></div></div></td>';
+            input += '</tr>';
           }
-          input += '</ul>';
+          input += '</table>';
 
           let htmlData = input;
 
@@ -236,14 +261,14 @@
                     <button class="btn btn-outline-primary" type="submit">
                       추가하기
                     </button>
-                  </div>               
+                  </div>
+                </form>               
                 <!-- TodoList 수정/디데이 설정 -->
                 <div class="card mb-4">                  
                   <div class="card-body" id="todolist-container">
                     <div id="events_list">
                     </div>
                   </div>
-                </form>
                 </div>
               </div>
             </div>

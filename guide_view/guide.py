@@ -31,6 +31,46 @@ def planner():
         return redirect(url_for('guide_view.planner'))
     
     return render_template('layout-planner.html', current_date=current_date, form=form, todolist=todolist)
+
+@guide_view.route('/planner/update', methods=['POST'])
+@login_required
+def planner_update():
+    plan_id = request.form.get('plan_id')
+    d_day = request.form.get('d_day')
+    select_plan = Plans.query.get(plan_id)
+
+    if select_plan and d_day is not None:
+        select_plan.d_day = datetime.strptime(d_day, '%Y-%m-%d')
+        db.session.commit()
+
+    return redirect(url_for('guide_view.planner'))
+
+# @guide_view.route('/planner/update/checkbox', methods=['POST'])
+# @login_required
+# def planner_update_checkbox():
+#     plan_id = request.form.get('plan_id')
+#     dodone = request.form.get('dodone')
+
+#     if plan_id and dodone is not None:
+#         select_plan = Plans.query.get(plan_id)
+#         if select_plan:
+#             select_plan.dodone = dodone
+#             db.session.commit()
+
+#     return redirect(url_for('guide_view.planner'))
+    
+@guide_view.route('/planner/delete', methods=['POST'])
+@login_required
+def planner_delete():
+    plan_id = request.form.get('plan_id')
+    select_plan = Plans.query.get(plan_id)
+
+    if select_plan:
+        db.session.delete(select_plan)
+        db.session.commit()
+
+    return redirect(url_for('guide_view.planner'))
+    
     
 @guide_view.route('/grades')
 def grades():
@@ -91,68 +131,6 @@ def register():
 # @guide_view.route('/password', methods=['GET', 'POST'])
 # def password():
 #     return render_template('password.html')
-
-# #플래너
-# @guide_view.route('/planner', methods=['GET', 'POST'])
-# @login_required
-# def planner():
-#     # Todo Item 생성
-#     if request.method == "POST":
-#         content = request.form.get('content')
-#         dodone = request.form.get('dodone')
-#         d_day = request.form.get('d_day')
-
-#         # 유효성 검사
-#         if len(content) < 1:
-#             flash("내용이 없습니다.", category = "error")
-#         elif len(content) > 50:
-#             flash("내용이 너무 깁니다. 50자 이내", category = "error")
-#         else :
-#             # DB에 저장
-#             new_plan = Plans(user_id=current_user.id, content=content, dodone=dodone, d_day=d_day, set_date=set_date)    
-#             db.session.add(new_plan)
-#             db.session.commit()
-
-#             flash("추가 완료", category="success")
-#             return redirect(url_for('guide.planner'))
-#     return render_template('layout-planner.html')
-
-# #플래너 Todolist Item 수정
-# @guide_view.route('/planner/update', methods=['PUT'])
-# @login_required
-# def planner_update():
-#     if request.method == "PUT":
-#         plan = request.get_json()
-#         plan_id = plan.get('planId')
-#         dodone = plan.get('dodone')
-#         d_day = plan.get('d_day')
-
-#         select_plan = Plans.query.get(plan_id)
-#         if select_plan:
-#             if select_plan.user_id == current_user.id : 
-#                 select_plan.dodone = dodone
-#                 select_plan.d_day = d_day
-#                 db.session.commit()
-
-#         return jsonify({})
-
-# #플래너 Todolist Item 삭제
-# @guide_view.route('/planner/delete', methods=['POST'])
-# @login_required
-# def planner_delete():
-#     if request.method == "POST":
-#         plan = request.get_json()
-#         plan_id = plan.get('planId')
-
-#         # DB 확인
-#         select_plan = Plans.query.get(plan_id)
-#         if select_plan:
-#             if select_plan.user_id == current_user.id:
-#                 db.session.delete(select_plan)
-#                 db.session.commit()
-#                 return jsonify({'result':True})
-
-#         return jsonify({'result':False})
 
 # #성적 관리
 # @guide_view.route('/grades', methods=['GET', 'POST'])
