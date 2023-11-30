@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import PasswordField, StringField, SubmitField, IntegerField, HiddenField, RadioField, SelectField
+from wtforms import PasswordField, StringField, SubmitField, IntegerField, HiddenField, RadioField, SelectField, FormField
 from wtforms.validators import DataRequired, Email, Length, EqualTo
 from datetime import datetime
 
@@ -117,7 +117,15 @@ class PlannerForm(FlaskForm):
         parsed_date = datetime.strptime(cleaned_date_string, '%a %b %d %Y %H:%M:%S %Z%z')
         field.data = parsed_date
         
-class GradesForm(FlaskForm):
+        
+class SchoolGradeForm(FlaskForm):
+    # 학기
+    semester = SelectField(
+        "semester",
+        validators=[
+            DataRequired(message="학기는 필수입니다.")
+        ]
+    )
     # 과목
     grade = StringField(
         "grade",
@@ -134,21 +142,6 @@ class GradesForm(FlaskForm):
             Length(max=20, message="20글자 이내로 입력해주세요. ")
         ]
     )
-    # 점수
-    score = StringField(
-        "score",
-        validators=[
-            DataRequired(message="점수는 필수입니다."), 
-            Length(max=20, message="20글자 이내로 입력해주세요. ")
-        ]
-    )
-    # 학기
-    semester = SelectField(
-        "semester",
-        validators=[
-            DataRequired(message="학기는 필수입니다.")
-        ]
-    )
     # 등급
     rank = SelectField(
         "rank",
@@ -163,7 +156,16 @@ class GradesForm(FlaskForm):
             DataRequired(message="학점제 유무는 필수입니다.")
         ]
     )
+    # 점수
+    score = StringField(
+        "score",
+        validators=[
+            DataRequired(message="점수는 필수입니다."), 
+            Length(max=20, message="20글자 이내로 입력해주세요. ")
+        ]
+    )
     
+class MockGradeFrom(FlaskForm):
     # 연도
     year = SelectField(
         "year",
@@ -178,7 +180,35 @@ class GradesForm(FlaskForm):
             DataRequired(message="학점제 유무는 필수입니다.")
         ]
     )
+    # 과목
+    grade = StringField(
+        "grade",
+        validators=[
+            DataRequired(message="과목은 필수입니다."), 
+            Length(max=20, message="20글자 이내로 입력해주세요. ")
+        ]
+    )
+    # 등급
+    rank = SelectField(
+        "rank",
+        validators=[
+            DataRequired(message="등급은 필수입니다.")
+        ]
+    )
+    # 점수
+    score = StringField(
+        "score",
+        validators=[
+            DataRequired(message="점수는 필수입니다."), 
+            Length(max=20, message="20글자 이내로 입력해주세요. ")
+        ]
+    )
     
-    submit = SubmitField("성적 등록")
+    
+class GradesForm(FlaskForm):
+    school_grade = FormField(SchoolGradeForm)
+    mock_grade = FormField(MockGradeFrom)
+    
+    
 
     
