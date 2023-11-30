@@ -1,27 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8"/>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta
       name="viewport"
-      content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
-    <meta name="description" content=""/>
-    <meta name="author" content=""/>
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
     <title>길잡이</title>
     <link
       href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css"
-      rel="stylesheet"/>
-    <link href="/static/styles.css" rel="stylesheet"/>
+      rel="stylesheet"
+    />
+    <link href="/static/styles.css" rel="stylesheet" />
     <script
       src="https://use.fontawesome.com/releases/v6.3.0/js/all.js"
-      crossorigin="anonymous">
-    </script>
+      crossorigin="anonymous"
+    ></script>
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.9/index.global.min.js"></script>
     <script>
       document.addEventListener("DOMContentLoaded", function () {
         var calendarEl = document.getElementById("calendar");
-        
+
         var calendar = new FullCalendar.Calendar(calendarEl, {
           initialView: "dayGridMonth",
           displayEventTime: false,
@@ -41,7 +43,7 @@
             var selectedDate = info.date;
             updateSelectedDate(selectedDate);
             updateEvents(selectedDate);
-            
+
           }
         });
         //현재 날짜
@@ -66,7 +68,7 @@
             },
             {% endfor %}
           ];
-          
+
           let year = selectedDate.getFullYear();
           let month = selectedDate.getMonth() + 1;
           let day = selectedDate.getDate();
@@ -145,17 +147,31 @@
             href="#"
             role="button"
             data-bs-toggle="dropdown"
-            aria-expanded="false">
+            aria-expanded="false"
+          >
             <i class="fas fa-user fa-fw"></i>
           </a>
           <ul
             class="dropdown-menu dropdown-menu-end"
-            aria-labelledby="navbarDropdown">
+            aria-labelledby="navbarDropdown"
+          >
             {% if current_user.is_authenticated %}
-            <li><a class="dropdown-item" href="/logout"><i class="fa-solid fa-right-from-bracket"></i>&nbsp;로그아웃</a></li>
+            <li>
+              <a class="dropdown-item" href="/logout"
+                ><i class="fa-solid fa-right-from-bracket"></i>&nbsp;로그아웃</a
+              >
+            </li>
             {% else %}
-            <li><a class="dropdown-item" href="/login"><i class="fa-solid fa-right-from-bracket"></i>&nbsp;로그인</a></li>
-            <li><a class="dropdown-item" href="/register"><i class="fa-solid fa-id-card"></i>&nbsp;회원가입</a></li>
+            <li>
+              <a class="dropdown-item" href="/login"
+                ><i class="fa-solid fa-right-from-bracket"></i>&nbsp;로그인</a
+              >
+            </li>
+            <li>
+              <a class="dropdown-item" href="/register"
+                ><i class="fa-solid fa-id-card"></i>&nbsp;회원가입</a
+              >
+            </li>
             {% endif %}
           </ul>
         </li>
@@ -207,7 +223,8 @@
           <div class="container-fluid px-4">
             <h1 class="mt-4">길잡이</h1>
             <ol class="breadcrumb mb-4">
-              <li class="breadcrumb-item">&nbsp;
+              <li class="breadcrumb-item">
+                &nbsp;
                 <a href="/" style="text-decoration: none">
                   <i class="fa-solid fa-house-chimney"></i>&nbsp;메인화면
                 </a>
@@ -230,7 +247,12 @@
                 <!-- 할일/한일 입력부분 -->
                 <form method="post">
                   {{ form.csrf_token }}
-                  <input type="hidden" name="set_date" id="set_date" value="{{ set_date or '' }}" />
+                  <input
+                    type="hidden"
+                    name="set_date"
+                    id="set_date"
+                    value="{{ set_date or '' }}"
+                  />
                   <div class="input-group mt-4 mb-2">
                     <input
                       class="form-control"
@@ -238,7 +260,8 @@
                       name="content"
                       type="text"
                       value="{{ form.content.data or '' }}"
-                      placeholder="입력하세요"/>
+                      placeholder="입력하세요"
+                    />
                     <div class="btn-group" role="group">
                       <input
                         type="radio"
@@ -247,27 +270,32 @@
                         id="todoradio"
                         value="do"
                         autocomplete="off"
-                        checked/>
-                      <label class="btn btn-outline-dark" for="todoradio">할일</label>
+                        checked
+                      />
+                      <label class="btn btn-outline-dark" for="todoradio"
+                        >할일</label
+                      >
                       <input
                         type="radio"
                         class="btn-check"
                         name="dodone"
                         id="doneradio"
                         value="done"
-                        autocomplete="off"/>
-                      <label class="btn btn-outline-dark" for="doneradio">한일</label>
+                        autocomplete="off"
+                      />
+                      <label class="btn btn-outline-dark" for="doneradio"
+                        >한일</label
+                      >
                     </div>
                     <button class="btn btn-outline-primary" type="submit">
                       추가하기
                     </button>
                   </div>
-                </form>               
+                </form>
                 <!-- TodoList 수정/디데이 설정 -->
-                <div class="card mb-4">                  
+                <div class="card mb-4">
                   <div class="card-body" id="todolist-container">
-                    <div id="events_list">
-                    </div>
+                    <div id="events_list"></div>
                   </div>
                 </div>
               </div>
@@ -277,7 +305,9 @@
         <!-- 하단 -->
         <footer class="py-4 bg-light mt-auto">
           <div class="container-fluid px-4">
-            <div class="d-flex align-items-center justify-content-between small">
+            <div
+              class="d-flex align-items-center justify-content-between small"
+            >
               <div class="text-muted">Copyright &copy; 길잡이 B조</div>
               <div>
                 <a href="#">Privacy Policy</a>
@@ -291,12 +321,15 @@
     </div>
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
-      crossorigin="anonymous"></script>
+      crossorigin="anonymous"
+    ></script>
     <script
       src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"
-      crossorigin="anonymous"></script>
+      crossorigin="anonymous"
+    ></script>
     <script
       src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js"
-      crossorigin="anonymous"></script>
+      crossorigin="anonymous"
+    ></script>
   </body>
 </html>

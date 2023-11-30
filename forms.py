@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import PasswordField, StringField, SubmitField, IntegerField, HiddenField, RadioField, DateField
+from wtforms import PasswordField, StringField, SubmitField, IntegerField, HiddenField, RadioField, SelectField
 from wtforms.validators import DataRequired, Email, Length, EqualTo
 from datetime import datetime
 
@@ -116,3 +116,69 @@ class PlannerForm(FlaskForm):
         cleaned_date_string = field.data.replace('(한국 표준시)', '').strip()
         parsed_date = datetime.strptime(cleaned_date_string, '%a %b %d %Y %H:%M:%S %Z%z')
         field.data = parsed_date
+        
+class GradesForm(FlaskForm):
+    # 과목
+    grade = StringField(
+        "grade",
+        validators=[
+            DataRequired(message="과목은 필수입니다."), 
+            Length(max=20, message="20글자 이내로 입력해주세요. ")
+        ]
+    )
+    # 등수
+    rank = StringField(
+        "rank",
+        validators=[
+            DataRequired(message="등수는 필수입니다."), 
+            Length(max=20, message="20글자 이내로 입력해주세요. ")
+        ]
+    )
+    # 점수
+    score = StringField(
+        "score",
+        validators=[
+            DataRequired(message="점수는 필수입니다."), 
+            Length(max=20, message="20글자 이내로 입력해주세요. ")
+        ]
+    )
+    # 학기
+    semester = SelectField(
+        "semester",
+        validators=[
+            DataRequired(message="학기는 필수입니다.")
+        ]
+    )
+    # 등급
+    rank = SelectField(
+        "rank",
+        validators=[
+            DataRequired(message="등급은 필수입니다.")
+        ]
+    )
+    # 학점제 유무
+    is_rank = SelectField(
+        "is_rank",
+        validators=[
+            DataRequired(message="학점제 유무는 필수입니다.")
+        ]
+    )
+    
+    # 연도
+    year = SelectField(
+        "year",
+        validators=[
+            DataRequired(message="학점제 유무는 필수입니다.")
+        ]
+    )
+    # 월
+    month = SelectField(
+        "month",
+        validators=[
+            DataRequired(message="학점제 유무는 필수입니다.")
+        ]
+    )
+    
+    submit = SubmitField("성적 등록")
+
+    

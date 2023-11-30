@@ -3,7 +3,7 @@ from flask_login import current_user, login_required, login_user, logout_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from db_model.models import db, User, Plans
 from datetime import datetime
-from forms import UserForm, LoginForm, PlannerForm
+from forms import UserForm, LoginForm, PlannerForm, GradesForm
 import json
 
 guide_view = Blueprint('guide_view', __name__, url_prefix='/')
@@ -74,8 +74,27 @@ def planner_delete():
     
 @guide_view.route('/grades')
 def grades():
+    form = GradesForm()
     rate = 10
-    return render_template('layout-grades.html',rate=rate)
+    return render_template('layout-grades.html',rate=rate, form=form)
+
+# 내신 성적 추가 - 중간고사
+@guide_view.route('/grades/school/midterm', methods=['POST'])
+@login_required
+def grades_midterm():
+    return redirect(url_for('guide_view.grades'))
+
+# 내신 성적 추가 - 기말고사
+@guide_view.route('/grades/school/final', methods=['POST'])
+@login_required
+def grades_final():
+    return redirect(url_for('guide_view.grades'))
+
+# 모의고사 성적 추가
+@guide_view.route('/grades/mock', methods=['POST'])
+@login_required
+def grades_mock():
+    return redirect(url_for('guide_view.grades'))
 
 @guide_view.route('/board')
 def board():
@@ -132,11 +151,6 @@ def register():
 # def password():
 #     return render_template('password.html')
 
-# #성적 관리
-# @guide_view.route('/grades', methods=['GET', 'POST'])
-# @login_required
-# def grades():
-#     return render_template('layout-grades.html')
 
 # #게시판
 # @guide_view.route('/board', methods=['GET', 'POST'])
