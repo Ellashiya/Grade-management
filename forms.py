@@ -122,7 +122,7 @@ class SchoolGradeForm(FlaskForm):
     # 학기
     semester = SelectField(
         "semester",
-        choices=[('sem_1', '2013학년도 1학기'), ('sem_2', '2013학년도 2학기')]
+        choices=[('2013학년도 1학기', '2013학년도 1학기'), ('2013학년도 2학기', '2013학년도 2학기')]
     )
     # 과목
     grade = StringField(
