@@ -122,9 +122,7 @@ class SchoolGradeForm(FlaskForm):
     # 학기
     semester = SelectField(
         "semester",
-        validators=[
-            DataRequired(message="학기는 필수입니다.")
-        ]
+        choices=[('sem_1', '2013학년도 1학기'), ('sem_2', '2013학년도 2학기')]
     )
     # 과목
     grade = StringField(
@@ -145,16 +143,17 @@ class SchoolGradeForm(FlaskForm):
     # 등급
     rank = SelectField(
         "rank",
-        validators=[
-            DataRequired(message="등급은 필수입니다.")
-        ]
+        choices = [
+            ('A+', 'A+'), ('A', 'A'), ('B+', 'B+'), 
+            ('B', 'B'), ('C+', 'C+'), ('C', 'C'), 
+            ('D+', 'D+'), ('D', 'D'), ('F', 'F'), 
+            ('P', 'P'), ('U', 'U')
+            ]
     )
     # 학점제 유무
     is_rank = SelectField(
         "is_rank",
-        validators=[
-            DataRequired(message="학점제 유무는 필수입니다.")
-        ]
+        choices=[('O', 'O'), ('X', 'X')]
     )
     # 점수
     score = StringField(
@@ -170,16 +169,16 @@ class MockGradeFrom(FlaskForm):
     # 연도
     year = SelectField(
         "year",
-        validators=[
-            DataRequired(message="학점제 유무는 필수입니다.")
-        ]
+        choices=[('2013년', '2013년'), ('2014년', '2014년')]
     )
     # 월
     month = SelectField(
         "month",
-        validators=[
-            DataRequired(message="학점제 유무는 필수입니다.")
-        ]
+        choices = [
+            ('3월', '3월'), ('5월', '5월'), ('6월', '6월'),
+            ('7월', '7월'), ('9월', '9월'), ('10월', '10월'),
+            ('11월', '11월'), ('12월', '12월')
+            ]
     )
     # 과목
     grade = StringField(
@@ -192,9 +191,11 @@ class MockGradeFrom(FlaskForm):
     # 등급
     rank = SelectField(
         "rank",
-        validators=[
-            DataRequired(message="등급은 필수입니다.")
-        ]
+        choices = [
+            ('1', '1'), ('2', '2'), ('3', '3'),
+            ('4', '4'), ('5', '5'), ('6', '6'),
+            ('7', '7'), ('8', '8'), ('9', '9')
+            ]
     )
     # 점수
     score = StringField(
