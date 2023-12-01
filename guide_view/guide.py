@@ -3,7 +3,7 @@ from flask_login import current_user, login_required, login_user, logout_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from db_model.models import db, User, Plans
 from datetime import datetime
-from forms import UserForm, LoginForm, PlannerForm, GradesForm
+from forms import UserForm, LoginForm, PlannerForm, SchoolGradeForm, MockGradeFrom
 import json
 
 guide_view = Blueprint('guide_view', __name__, url_prefix='/')
@@ -74,9 +74,10 @@ def planner_delete():
     
 @guide_view.route('/grades')
 def grades():
-    form = GradesForm()
+    school_form = SchoolGradeForm()
+    mock_form = MockGradeFrom()
     rate = 10
-    return render_template('layout-grades.html',rate=rate, form=form)
+    return render_template('layout-grades.html',rate=rate, school_form=school_form, mock_form=mock_form)
 
 # 내신 성적 추가 - 중간고사
 @guide_view.route('/grades/school/midterm', methods=['POST'])

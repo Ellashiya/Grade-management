@@ -164,6 +164,7 @@ class SchoolGradeForm(FlaskForm):
             Length(max=20, message="20글자 이내로 입력해주세요. ")
         ]
     )
+    submit = SubmitField("내신 성적 등록")
     
 class MockGradeFrom(FlaskForm):
     # 연도
@@ -203,11 +204,7 @@ class MockGradeFrom(FlaskForm):
             Length(max=20, message="20글자 이내로 입력해주세요. ")
         ]
     )
-    
-    
-class GradesForm(FlaskForm):
-    school_grade = FormField(SchoolGradeForm)
-    mock_grade = FormField(MockGradeFrom)
+    submit = SubmitField("모의고사 성적 등록")
     
     
 

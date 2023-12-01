@@ -71,7 +71,7 @@
 
           let year = selectedDate.getFullYear();
           let month = selectedDate.getMonth() + 1;
-          let day = selectedDate.getDate();
+          let day = selectedDate.getDate().toLocaleString('en-US', {minimumIntegerDigits: 2});
 
           let dayStr = `${year}-${month}-${day}`;
 

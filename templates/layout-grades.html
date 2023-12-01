@@ -75,7 +75,7 @@
                     <!-- 성적 입력란 -->
                     <tr>
                       <form method="post" action="/grades/school/midterm">
-                        {{ form.csrf_token }}
+                        {{ school_form.csrf_token }}
                         <!-- 학기 선택 -->
                         <th>
                           <select class="form-select">
@@ -173,7 +173,7 @@
                     <!-- 성적 입력란 -->
                     <tr>
                       <form method="post" action="/grades/school/final">
-                        {{ form.csrf_token }}
+                        {{ school_form.csrf_token }}
                         <!-- 학기 선택 -->
                         <th>
                           <select class="form-select">
@@ -268,7 +268,6 @@
                   <div class="card-header">성적 분석</div>
                   <div class="card-body">
                     <form>
-                      {{ form.csrf_token }}
                       <div class="row">
                         <div class="input-group col-md-2">
                           <!-- 학기 선택-->
@@ -352,7 +351,7 @@
                       <!-- 성적 입력란 -->
                       <tr>
                         <form method="post" action="/grades/mock">
-                          {{ form.csrf_token }}
+                          {{ mock_form.csrf_token }}
                           <!-- 연도 선택 -->
                           <th>
                             <select class="form-select">
@@ -446,7 +445,6 @@
                     <div class="card-header">성적 분석</div>
                     <div class="card-body">
                       <form>
-                        {{ form.csrf_token }}
                         <div class="row">
                           <div class="input-group col-md-2">
                             <!-- 연도 선택-->
