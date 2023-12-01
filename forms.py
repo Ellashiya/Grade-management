@@ -133,8 +133,8 @@ class SchoolGradeForm(FlaskForm):
         ]
     )
     # 등수
-    rank = StringField(
-        "rank",
+    schoolrank = StringField(
+        "schoolrank",
         validators=[
             DataRequired(message="등수는 필수입니다."), 
             Length(max=20, message="20글자 이내로 입력해주세요. ")

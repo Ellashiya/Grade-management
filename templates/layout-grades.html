@@ -102,25 +102,18 @@
                         </th>
                         <!-- 등급 선택 -->
                         <th>
-                          <select class="form-select">
-                            <option value="A+" selected>A+</option>
-                            <option value="A">A</option>
-                            <option value="B+">B+</option>
-                            <option value="B">B</option>
-                            <option value="C+">C+</option>
-                            <option value="C">C</option>
-                            <option value="D+">D+</option>
-                            <option value="D">D</option>
-                            <option value="F">F</option>
-                            <option value="P">P</option>
-                            <option value="U">U</option>
+                          <select id="{{ school_form.rank.id }}" name="{{ school_form.rank.name }}" class="form-select">
+                            {% for value, label in school_form.rank.choices %}
+                            <option value="{{ value }}" {% if value == school_form.rank.data %}selected{% endif %}>{{ label }}</option>
+                            {% endfor %}
                           </select>
                         </th>
                         <!-- 학점제 유무 선택 -->
                         <th>
-                          <select class="form-select">
-                            <option value="Yes" selected>O</option>
-                            <option value="No">X</option>
+                          <select id="{{ school_form.is_rank.id }}" name="{{ school_form.is_rank.name }}" class="form-select">
+                            {% for value, label in school_form.is_rank.choices %}
+                            <option value="{{ value }}" {% if value == school_form.is_rank.data %}selected{% endif %}>{{ label }}</option>
+                            {% endfor %}
                           </select>
                         </th>
                         <!-- 점수 입력 -->
@@ -173,13 +166,10 @@
                         {{ school_form.csrf_token }}
                         <!-- 학기 선택 -->
                         <th>
-                          <select class="form-select">
-                            <option value="2023학년도 1학기" selected>
-                              2023학년도 1학기
-                            </option>
-                            <option value="2023학년도 2학기">
-                              2023학년도 2학기
-                            </option>
+                          <select id="{{ school_form.semester.id }}" name="{{ school_form.semester.name }}" class="form-select">
+                            {% for value, label in school_form.semester.choices %}
+                            <option value="{{ value }}" {% if value == school_form.semester.data %}selected{% endif %}>{{ label }}</option>
+                            {% endfor %}
                           </select>
                         </th>
                         <!-- 과목 입력 -->
@@ -200,25 +190,18 @@
                         </th>
                         <!-- 등급 선택 -->
                         <th>
-                          <select class="form-select">
-                            <option value="A+" selected>A+</option>
-                            <option value="A">A</option>
-                            <option value="B+">B+</option>
-                            <option value="B">B</option>
-                            <option value="C+">C+</option>
-                            <option value="C">C</option>
-                            <option value="D+">D+</option>
-                            <option value="D">D</option>
-                            <option value="F">F</option>
-                            <option value="P">P</option>
-                            <option value="U">U</option>
+                          <select id="{{ school_form.rank.id }}" name="{{ school_form.rank.name }}" class="form-select">
+                            {% for value, label in school_form.rank.choices %}
+                            <option value="{{ value }}" {% if value == school_form.rank.data %}selected{% endif %}>{{ label }}</option>
+                            {% endfor %}
                           </select>
                         </th>
                         <!-- 학점제 유무 선택 -->
                         <th>
-                          <select class="form-select">
-                            <option value="Yes" selected>O</option>
-                            <option value="No">X</option>
+                          <select id="{{ school_form.is_rank.id }}" name="{{ school_form.is_rank.name }}" class="form-select">
+                            {% for value, label in school_form.is_rank.choices %}
+                            <option value="{{ value }}" {% if value == school_form.is_rank.data %}selected{% endif %}>{{ label }}</option>
+                            {% endfor %}
                           </select>
                         </th>
                         <!-- 점수 입력 -->
@@ -351,22 +334,18 @@
                           {{ mock_form.csrf_token }}
                           <!-- 연도 선택 -->
                           <th>
-                            <select class="form-select">
-                              <option value="2023년" selected>2023년</option>
-                              <option value="2024년">2024년</option>
+                            <select id="{{ mock_form.year.id }}" name="{{ mock_form.year.name }}" class="form-select">
+                              {% for value, label in mock_form.year.choices %}
+                              <option value="{{ value }}" {% if value == mock_form.year.data %}selected{% endif %}>{{ label }}</option>
+                              {% endfor %}
                             </select>
                           </th>
                           <!-- 월 선택 -->
                           <th>
-                            <select class="form-select">
-                              <option value="3월" selected>3월</option>
-                              <option value="5월">5월</option>
-                              <option value="6월">6월</option>
-                              <option value="7월">7월</option>
-                              <option value="9월">9월</option>
-                              <option value="10월">10월</option>
-                              <option value="11월">11월</option>
-                              <option value="12월">12월</option>
+                            <select id="{{ mock_form.month.id }}" name="{{ mock_form.month.name }}" class="form-select">
+                              {% for value, label in mock_form.month.choices %}
+                              <option value="{{ value }}" {% if value == mock_form.month.data %}selected{% endif %}>{{ label }}</option>
+                              {% endfor %}
                             </select>
                           </th>
                           <!-- 과목 입력 -->
@@ -379,16 +358,10 @@
                           </th>
                           <!-- 등급 선택 -->
                           <th>
-                            <select class="form-select">
-                              <option value="1" selected>1</option>
-                              <option value="2">2</option>
-                              <option value="3">3</option>
-                              <option value="4">4</option>
-                              <option value="5">5</option>
-                              <option value="6">6</option>
-                              <option value="7">7</option>
-                              <option value="8">8</option>
-                              <option value="9">9</option>
+                            <select id="{{ mock_form.rank.id }}" name="{{ mock_form.rank.name }}" class="form-select">
+                              {% for value, label in mock_form.rank.choices %}
+                              <option value="{{ value }}" {% if value == mock_form.rank.data %}selected{% endif %}>{{ label }}</option>
+                              {% endfor %}
                             </select>
                           </th>
                           <!-- 점수 입력 -->
