@@ -83,19 +83,40 @@ def grades():
 @guide_view.route('/grades/school/midterm', methods=['POST'])
 @login_required
 def grades_midterm():
-    return redirect(url_for('guide_view.grades'))
+    school_form = SchoolGradeForm()
+    mock_form = MockGradeFrom()
+    rate = 10
+    
+    if school_form.validate_on_submit():
+        pass
+    
+    return render_template('layout-grades.html',rate=rate, school_form=school_form, mock_form=mock_form)
 
 # 내신 성적 추가 - 기말고사
 @guide_view.route('/grades/school/final', methods=['POST'])
 @login_required
 def grades_final():
-    return redirect(url_for('guide_view.grades'))
+    school_form = SchoolGradeForm()
+    mock_form = MockGradeFrom()
+    rate = 10
+    
+    if school_form.validate_on_submit():
+        pass
+    
+    return render_template('layout-grades.html',rate=rate, school_form=school_form, mock_form=mock_form)
 
 # 모의고사 성적 추가
 @guide_view.route('/grades/mock', methods=['POST'])
 @login_required
 def grades_mock():
-    return redirect(url_for('guide_view.grades'))
+    school_form = SchoolGradeForm()
+    mock_form = MockGradeFrom()
+    rate = 10
+    
+    if mock_form.validate_on_submit():
+        pass
+    
+    return render_template('layout-grades.html',rate=rate, school_form=school_form, mock_form=mock_form)
 
 @guide_view.route('/board')
 def board():
