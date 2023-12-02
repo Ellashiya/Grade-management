@@ -88,7 +88,7 @@ def grades_midterm():
     rate = 10
     
     if school_form.validate_on_submit():
-        pass
+        print('중간고사 추가')
     else:
         print(school_form.errors)
     
@@ -103,7 +103,7 @@ def grades_final():
     rate = 10
     
     if school_form.validate_on_submit():
-        pass
+        print('기말고사 추가')
     else:
         print(school_form.errors)
     
@@ -118,7 +118,7 @@ def grades_mock():
     rate = 10
     
     if mock_form.validate_on_submit():
-        pass
+        print('모의고사 추가')
     else:
         print(mock_form.errors)
     
