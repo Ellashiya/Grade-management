@@ -90,6 +90,7 @@
                             class="form-control"
                             type="subject"
                             placeholder="과목"
+                            value="{{ school_form.grade.data or '' }}"
                           />
                         </th>
                         <!-- 등수 입력 -->
@@ -98,6 +99,7 @@
                             class="form-control"
                             type="numrank"
                             placeholder="등수"
+                            value="{{ school_form.schoolrank.data or '' }}"
                           />
                         </th>
                         <!-- 등급 선택 -->
@@ -122,6 +124,7 @@
                             class="form-control"
                             type="score"
                             placeholder="점수"
+                            value="{{ school_form.score.data or '' }}"
                           />
                         </th>
                         <!-- 성적 추가 버튼 -->
@@ -178,6 +181,7 @@
                             class="form-control"
                             type="subject"
                             placeholder="과목"
+                            value="{{ school_form.grade.data or '' }}"
                           />
                         </th>
                         <!-- 등수 입력 -->
@@ -186,6 +190,7 @@
                             class="form-control"
                             type="numrank"
                             placeholder="등수"
+                            value="{{ school_form.schoolrank.data or '' }}"
                           />
                         </th>
                         <!-- 등급 선택 -->
@@ -210,6 +215,7 @@
                             class="form-control"
                             type="score"
                             placeholder="점수"
+                            value="{{ school_form.score.data or '' }}"
                           />
                         </th>
                         <!-- 성적 추가 버튼 -->
@@ -354,6 +360,7 @@
                               class="form-control"
                               type="subject"
                               placeholder="과목"
+                              value="{{ mock_form.grade.data or '' }}"
                             />
                           </th>
                           <!-- 등급 선택 -->
@@ -370,6 +377,7 @@
                               class="form-control"
                               type="score"
                               placeholder="점수"
+                              value="{{ mock_form.score.data or '' }}"
                             />
                           </th>
                           <!-- 성적 추가 버튼 -->
