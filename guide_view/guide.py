@@ -89,6 +89,8 @@ def grades_midterm():
     
     if school_form.validate_on_submit():
         pass
+    else:
+        print(school_form.errors)
     
     return render_template('layout-grades.html',rate=rate, school_form=school_form, mock_form=mock_form)
 
@@ -102,6 +104,8 @@ def grades_final():
     
     if school_form.validate_on_submit():
         pass
+    else:
+        print(school_form.errors)
     
     return render_template('layout-grades.html',rate=rate, school_form=school_form, mock_form=mock_form)
 
@@ -115,6 +119,8 @@ def grades_mock():
     
     if mock_form.validate_on_submit():
         pass
+    else:
+        print(mock_form.errors)
     
     return render_template('layout-grades.html',rate=rate, school_form=school_form, mock_form=mock_form)
 
