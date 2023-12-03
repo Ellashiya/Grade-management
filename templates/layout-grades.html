@@ -75,12 +75,12 @@
                     <!-- 성적 입력란 -->
                     <tr>
                       <form method="post" action="/grades/school/midterm">
-                        {{ school_form.csrf_token }}
+                        {{ midterm_form.csrf_token }}
                         <!-- 학기 선택 -->
                         <th>
-                          <select id="{{ school_form.semester.id }}" name="{{ school_form.semester.name }}" class="form-select">
-                            {% for value, label in school_form.semester.choices %}
-                            <option value="{{ value }}" {% if value == school_form.semester.data %}selected{% endif %}>{{ label }}</option>
+                          <select id="{{ midterm_form.semester.id }}" name="{{ midterm_form.semester.name }}" class="form-select">
+                            {% for value, label in midterm_form.semester.choices %}
+                            <option value="{{ value }}" {% if value == midterm_form.semester.data %}selected{% endif %}>{{ label }}</option>
                             {% endfor %}
                           </select>
                         </th>
@@ -90,7 +90,8 @@
                             class="form-control"
                             type="subject"
                             placeholder="과목"
-                            value="{{ school_form.grade.data or '' }}"
+                            name="{{ midterm_form.grade.data }}"
+                            value="{{ midterm_form.grade.data or '' }}"
                           />
                         </th>
                         <!-- 등수 입력 -->
@@ -99,22 +100,23 @@
                             class="form-control"
                             type="numrank"
                             placeholder="등수"
-                            value="{{ school_form.schoolrank.data or '' }}"
+                            name="{{ midterm_form.schoolrank.data }}"
+                            value="{{ midterm_form.schoolrank.data or '' }}"
                           />
                         </th>
                         <!-- 등급 선택 -->
                         <th>
-                          <select id="{{ school_form.rank.id }}" name="{{ school_form.rank.name }}" class="form-select">
-                            {% for value, label in school_form.rank.choices %}
-                            <option value="{{ value }}" {% if value == school_form.rank.data %}selected{% endif %}>{{ label }}</option>
+                          <select id="{{ midterm_form.rank.id }}" name="{{ midterm_form.rank.name }}" class="form-select">
+                            {% for value, label in midterm_form.rank.choices %}
+                            <option value="{{ value }}" {% if value == midterm_form.rank.data %}selected{% endif %}>{{ label }}</option>
                             {% endfor %}
                           </select>
                         </th>
                         <!-- 학점제 유무 선택 -->
                         <th>
-                          <select id="{{ school_form.is_rank.id }}" name="{{ school_form.is_rank.name }}" class="form-select">
-                            {% for value, label in school_form.is_rank.choices %}
-                            <option value="{{ value }}" {% if value == school_form.is_rank.data %}selected{% endif %}>{{ label }}</option>
+                          <select id="{{ midterm_form.is_rank.id }}" name="{{ midterm_form.is_rank.name }}" class="form-select">
+                            {% for value, label in midterm_form.is_rank.choices %}
+                            <option value="{{ value }}" {% if value == midterm_form.is_rank.data %}selected{% endif %}>{{ label }}</option>
                             {% endfor %}
                           </select>
                         </th>
@@ -124,7 +126,8 @@
                             class="form-control"
                             type="score"
                             placeholder="점수"
-                            value="{{ school_form.score.data or '' }}"
+                            name="{{ midterm_form.score.data }}"
+                            value="{{ midterm_form.score.data or '' }}"
                           />
                         </th>
                         <!-- 성적 추가 버튼 -->
@@ -166,12 +169,12 @@
                     <!-- 성적 입력란 -->
                     <tr>
                       <form method="post" action="/grades/school/final">
-                        {{ school_form.csrf_token }}
+                        {{ f_form.csrf_token }}
                         <!-- 학기 선택 -->
                         <th>
-                          <select id="{{ school_form.semester.id }}" name="{{ school_form.semester.name }}" class="form-select">
-                            {% for value, label in school_form.semester.choices %}
-                            <option value="{{ value }}" {% if value == school_form.semester.data %}selected{% endif %}>{{ label }}</option>
+                          <select id="{{ f_form.semester.id }}" name="{{ f_form.semester.name }}" class="form-select">
+                            {% for value, label in f_form.semester.choices %}
+                            <option value="{{ value }}" {% if value == f_form.semester.data %}selected{% endif %}>{{ label }}</option>
                             {% endfor %}
                           </select>
                         </th>
@@ -181,7 +184,8 @@
                             class="form-control"
                             type="subject"
                             placeholder="과목"
-                            value="{{ school_form.grade.data or '' }}"
+                            name="{{ f_form.grade.data }}"
+                            value="{{ f_form.grade.data or '' }}"
                           />
                         </th>
                         <!-- 등수 입력 -->
@@ -190,22 +194,23 @@
                             class="form-control"
                             type="numrank"
                             placeholder="등수"
-                            value="{{ school_form.schoolrank.data or '' }}"
+                            name="{{ f_form.schoolrank.data }}"
+                            value="{{ f_form.schoolrank.data or '' }}"
                           />
                         </th>
                         <!-- 등급 선택 -->
                         <th>
-                          <select id="{{ school_form.rank.id }}" name="{{ school_form.rank.name }}" class="form-select">
-                            {% for value, label in school_form.rank.choices %}
-                            <option value="{{ value }}" {% if value == school_form.rank.data %}selected{% endif %}>{{ label }}</option>
+                          <select id="{{ f_form.rank.id }}" name="{{ f_form.rank.name }}" class="form-select">
+                            {% for value, label in f_form.rank.choices %}
+                            <option value="{{ value }}" {% if value == f_form.rank.data %}selected{% endif %}>{{ label }}</option>
                             {% endfor %}
                           </select>
                         </th>
                         <!-- 학점제 유무 선택 -->
                         <th>
-                          <select id="{{ school_form.is_rank.id }}" name="{{ school_form.is_rank.name }}" class="form-select">
-                            {% for value, label in school_form.is_rank.choices %}
-                            <option value="{{ value }}" {% if value == school_form.is_rank.data %}selected{% endif %}>{{ label }}</option>
+                          <select id="{{ f_form.is_rank.id }}" name="{{ f_form.is_rank.name }}" class="form-select">
+                            {% for value, label in f_form.is_rank.choices %}
+                            <option value="{{ value }}" {% if value == f_form.is_rank.data %}selected{% endif %}>{{ label }}</option>
                             {% endfor %}
                           </select>
                         </th>
@@ -215,7 +220,8 @@
                             class="form-control"
                             type="score"
                             placeholder="점수"
-                            value="{{ school_form.score.data or '' }}"
+                            name="{{ f_form.score.data }}"
+                            value="{{ f_form.score.data or '' }}"
                           />
                         </th>
                         <!-- 성적 추가 버튼 -->

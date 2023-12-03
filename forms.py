@@ -163,7 +163,54 @@ class SchoolGradeForm(FlaskForm):
             Length(max=20, message="20글자 이내로 입력해주세요. ")
         ]
     )
-    submit = SubmitField("내신 성적 등록")
+    submit = SubmitField("중간고사 성적 등록")
+    
+class FinalGradeForm(FlaskForm):
+    # 학기
+    semester = SelectField(
+        "semester",
+        choices=[('2013학년도 1학기', '2013학년도 1학기'), ('2013학년도 2학기', '2013학년도 2학기')]
+    )
+    # 과목
+    grade = StringField(
+        "grade",
+        validators=[
+            DataRequired(message="과목은 필수입니다."), 
+            Length(max=20, message="20글자 이내로 입력해주세요. ")
+        ]
+    )
+    # 등수
+    schoolrank = StringField(
+        "schoolrank",
+        validators=[
+            DataRequired(message="등수는 필수입니다."), 
+            Length(max=20, message="20글자 이내로 입력해주세요. ")
+        ]
+    )
+    # 등급
+    rank = SelectField(
+        "rank",
+        choices = [
+            ('A+', 'A+'), ('A', 'A'), ('B+', 'B+'), 
+            ('B', 'B'), ('C+', 'C+'), ('C', 'C'), 
+            ('D+', 'D+'), ('D', 'D'), ('F', 'F'), 
+            ('P', 'P'), ('U', 'U')
+            ]
+    )
+    # 학점제 유무
+    is_rank = SelectField(
+        "is_rank",
+        choices=[('O', 'O'), ('X', 'X')]
+    )
+    # 점수
+    score = StringField(
+        "score",
+        validators=[
+            DataRequired(message="점수는 필수입니다."), 
+            Length(max=20, message="20글자 이내로 입력해주세요. ")
+        ]
+    )
+    submit = SubmitField("기말고사 성적 등록")
     
 class MockGradeFrom(FlaskForm):
     # 연도

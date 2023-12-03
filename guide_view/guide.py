@@ -3,7 +3,7 @@ from flask_login import current_user, login_required, login_user, logout_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from db_model.models import db, User, Plans
 from datetime import datetime
-from forms import UserForm, LoginForm, PlannerForm, SchoolGradeForm, MockGradeFrom
+from forms import UserForm, LoginForm, PlannerForm, SchoolGradeForm, MockGradeFrom, FinalGradeForm
 import json
 
 guide_view = Blueprint('guide_view', __name__, url_prefix='/')
@@ -74,46 +74,50 @@ def planner_delete():
     
 @guide_view.route('/grades')
 def grades():
-    school_form = SchoolGradeForm()
+    midterm_form = SchoolGradeForm()
+    f_form = FinalGradeForm()
     mock_form = MockGradeFrom()
     rate = 10
-    return render_template('layout-grades.html',rate=rate, school_form=school_form, mock_form=mock_form)
+    return render_template('layout-grades.html',rate=rate, midterm_form=midterm_form, mock_form=mock_form, f_form=f_form)
 
 # 내신 성적 추가 - 중간고사
 @guide_view.route('/grades/school/midterm', methods=['POST'])
 @login_required
 def grades_midterm():
-    school_form = SchoolGradeForm()
+    midterm_form = SchoolGradeForm()
+    f_form = FinalGradeForm()
     mock_form = MockGradeFrom()
     rate = 10
     
-    if school_form.validate_on_submit():
+    if midterm_form.validate_on_submit():
         print('중간고사 추가')
     else:
-        print(school_form.errors)
+        print(midterm_form.errors)
     
-    return render_template('layout-grades.html',rate=rate, school_form=school_form, mock_form=mock_form)
+    return render_template('layout-grades.html',rate=rate, midterm_form=midterm_form, mock_form=mock_form, f_form=f_form)
 
 # 내신 성적 추가 - 기말고사
 @guide_view.route('/grades/school/final', methods=['POST'])
 @login_required
 def grades_final():
-    school_form = SchoolGradeForm()
+    midterm_form = SchoolGradeForm()
+    f_form = FinalGradeForm()
     mock_form = MockGradeFrom()
     rate = 10
     
-    if school_form.validate_on_submit():
+    if f_form.validate_on_submit():
         print('기말고사 추가')
     else:
-        print(school_form.errors)
+        print(f_form.errors)
     
-    return render_template('layout-grades.html',rate=rate, school_form=school_form, mock_form=mock_form)
+    return render_template('layout-grades.html',rate=rate, midterm_form=midterm_form, mock_form=mock_form, f_form=f_form)
 
 # 모의고사 성적 추가
 @guide_view.route('/grades/mock', methods=['POST'])
 @login_required
 def grades_mock():
-    school_form = SchoolGradeForm()
+    midterm_form = SchoolGradeForm()
+    f_form = FinalGradeForm()
     mock_form = MockGradeFrom()
     rate = 10
     
@@ -122,7 +126,7 @@ def grades_mock():
     else:
         print(mock_form.errors)
     
-    return render_template('layout-grades.html',rate=rate, school_form=school_form, mock_form=mock_form)
+    return render_template('layout-grades.html',rate=rate, midterm_form=midterm_form, mock_form=mock_form, f_form=f_form)
 
 @guide_view.route('/board')
 def board():
