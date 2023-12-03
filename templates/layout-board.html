@@ -28,9 +28,28 @@
             </tr>
           </thead>
           <tbody>
+            {% for item in posts %} {% set title_list = item.title.split() %} {%
+            set year = title_list[0] %} {% set month = title_list[1] %} {% set
+            school_year = title_list[2] %} {% set subject = title_list[3] %} {%
+            set num = title_list[4] %}
+
             <tr>
-              {% for item in board %} {% endfor %}
+              <td>{{ year }}</td>
+              <td>{{ month }}</td>
+              <td>{{ school_year }}</td>
+              <td>{{ subject }}</td>
+              <td>{{ num }}</td>
+              <td>{{ item.views }}</td>
+              <td>
+                <a
+                  href="/board/view/{{ item.board_id }}"
+                  class="btn btn-outline-dark"
+                >
+                  게시글 보기
+                </a>
+              </td>
             </tr>
+            {% endfor %}
           </tbody>
         </table>
       </div>

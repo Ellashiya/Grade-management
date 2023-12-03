@@ -1,7 +1,7 @@
 from flask import Flask, Blueprint, request, render_template, flash, redirect, url_for, session, jsonify
 from flask_login import current_user, login_required, login_user, logout_user
 from werkzeug.security import generate_password_hash, check_password_hash
-from db_model.models import db, User, Plans, SchoolGrades, MockGrades
+from db_model.models import db, User, Plans, SchoolGrades, MockGrades, Boards
 from datetime import datetime
 from forms import UserForm, LoginForm, PlannerForm, SchoolGradeForm, MockGradeFrom, FinalGradeForm
 import json
@@ -171,9 +171,19 @@ def schoolgrades_delete():
 
     return redirect(url_for('guide_view.grades'))
 
+# 게시판
 @guide_view.route('/board')
 def board():
-    return render_template('layout-board.html')
+    posts = Boards.query.all()
+    print(posts)
+    return render_template('layout-board.html', posts=posts)
+
+#게시판 글
+@guide_view.route('/board/view/<post_id>', methods=['GET', 'POST'])
+@login_required
+def board_view(post_id):
+    post = Boards.query.filter_by(board_id=post_id).first()
+    return render_template('layout-board-view.html', post=post)
 
 @guide_view.route('/login', methods=['GET', 'POST'])  
 def login():
@@ -225,19 +235,6 @@ def register():
 # @guide_view.route('/password', methods=['GET', 'POST'])
 # def password():
 #     return render_template('password.html')
-
-
-# #게시판
-# @guide_view.route('/board', methods=['GET', 'POST'])
-# @login_required
-# def board():
-#     return render_template('layout-board.html')
-
-# #게시판 글
-# @guide_view.route('/board/view', methods=['GET', 'POST'])
-# @login_required
-# def board_view():
-#     return render_template('layout-board-view.html')
 
 # #댓글 추가
 # @guide_view.route('/comment/add', methods=['GET', 'POST'])
