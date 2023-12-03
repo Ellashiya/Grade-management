@@ -144,15 +144,20 @@
                   </thead>
                   <tbody>
                     {% for item in midtermlist %}
-                      <tr>
-                        <td>{{ item.year.strftime('%Y') }}학년도&nbsp;{{ item.semester }}학기</td>
-                        <td>{{ item.subject }}</td>
-                        <td>{{ item.schoolrank }}</td>
-                        <td>{{ item.rank }}</td>
-                        <td>{{ item.isRank }}</td>
-                        <td>{{ item.score }}</td>
-                        <td><button class="btn btn-outline-danger">삭제하기</button></td>
-                      </tr>
+                      <form method="post" action="/grades/delete">
+                        {{ midterm_form.csrf_token }}
+                        <input type="hidden" name="form_name" value="midterm">
+                        <input type="hidden" name="schoolgrade_id" value="{{ item.schoolgrade_id}}">
+                        <tr>
+                          <td>{{ item.year.strftime('%Y') }}학년도&nbsp;{{ item.semester }}학기</td>
+                          <td>{{ item.subject }}</td>
+                          <td>{{ item.schoolrank }}</td>
+                          <td>{{ item.rank }}</td>
+                          <td>{{ item.isRank }}</td>
+                          <td>{{ item.score }}</td>
+                          <td><button class="btn btn-outline-danger" type="submit">삭제하기</button></td>
+                        </tr>
+                      </form>
                     {% endfor %}
                   </tbody>
                 </table>
@@ -248,15 +253,20 @@
                   </thead>
                   <tbody>
                     {% for item in finaltermlist %}
-                      <tr>
-                        <td>{{ item.year.strftime('%Y') }}학년도&nbsp;{{ item.semester }}학기</td>
-                        <td>{{ item.subject }}</td>
-                        <td>{{ item.schoolrank }}</td>
-                        <td>{{ item.rank }}</td>
-                        <td>{{ item.isRank }}</td>
-                        <td>{{ item.score }}</td>
-                        <td><button class="btn btn-outline-danger">삭제하기</button></td>
-                      </tr>
+                      <form method="post" action="/grades/delete">
+                        {{ f_form.csrf_token }}
+                        <input type="hidden" name="form_name" value="finalterm">
+                        <input type="hidden" name="schoolgrade_id" value="{{ item.schoolgrade_id}}">
+                        <tr>
+                          <td>{{ item.year.strftime('%Y') }}학년도&nbsp;{{ item.semester }}학기</td>
+                          <td>{{ item.subject }}</td>
+                          <td>{{ item.schoolrank }}</td>
+                          <td>{{ item.rank }}</td>
+                          <td>{{ item.isRank }}</td>
+                          <td>{{ item.score }}</td>
+                          <td><button class="btn btn-outline-danger" type="submit">삭제하기</button></td>
+                        </tr>
+                      </form>
                     {% endfor %}
                   </tbody>
                 </table>
@@ -330,7 +340,7 @@
               </div>
             </div>
             <div class="card">
-              <div class="card-body">dd</div>
+              <div class="card-body">대학 추천</div>
             </div>
           </div>
           <div>
@@ -424,14 +434,19 @@
                     </thead>
                     <tbody>
                       {% for item in mocklist %}
-                        <tr>
-                          <td>{{ item.year }}년</td>
-                          <td>{{ item.month }}월</td>
-                          <td>{{ item.subject }}</td>
-                          <td>{{ item.rank }}</td>
-                          <td>{{ item.score }}</td>
-                          <td><button class="btn btn-outline-danger">삭제하기</button></td>
-                        </tr>
+                        <form method="post" action="/grades/delete">
+                          {{ mock_form.csrf_token }}
+                          <input type="hidden" name="form_name" value="mock">
+                          <input type="hidden" name="mockgrade_id" value="{{ item.mockgrade_id }}">
+                          <tr>
+                            <td>{{ item.year }}년</td>
+                            <td>{{ item.month }}월</td>
+                            <td>{{ item.subject }}</td>
+                            <td>{{ item.rank }}</td>
+                            <td>{{ item.score }}</td>
+                            <td><button class="btn btn-outline-danger" type="submit">삭제하기</button></td>
+                          </tr>
+                        </form>
                       {% endfor %}
                     </tbody>
                   </table>
@@ -511,7 +526,7 @@
                 </div>
               </div>
               <div class="card">
-                <div class="card-body">dd</div>
+                <div class="card-body">대학 추천</div>
               </div>
               </div>
             </div>
@@ -519,7 +534,6 @@
         </div>
       </div>
     </div>
-
     {% endblock %}
   </div>
 </main>

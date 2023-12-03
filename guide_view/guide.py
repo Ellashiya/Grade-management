@@ -81,7 +81,7 @@ def grades():
 
     midtermlist = SchoolGrades.query.filter_by(user_id=current_user.id, ismidterm="Yes").order_by(SchoolGrades.year.asc(), SchoolGrades.semester.asc()).all()
     finaltermlist = SchoolGrades.query.filter_by(user_id=current_user.id, ismidterm="No").order_by(SchoolGrades.year.asc(), SchoolGrades.semester.asc()).all()
-    mocklist = MockGrades.query.filter_by(user_id=current_user.id).order_by(MockGrades.year.desc(), MockGrades.month.desc()).all()
+    mocklist = MockGrades.query.filter_by(user_id=current_user.id).order_by(MockGrades.year.desc(), MockGrades.month.asc()).all()
     return render_template('layout-grades.html',
                             rate=rate,
                             midterm_form=midterm_form, 
@@ -150,6 +150,25 @@ def grades_mock():
     )
     db.session.add(new_mock)
     db.session.commit()
+    return redirect(url_for('guide_view.grades'))
+
+@guide_view.route('/grades/delete', methods=['POST'])
+@login_required
+def schoolgrades_delete():
+    form_name = request.form.get('form_name')
+    select_grade = None
+
+    if form_name in ["midterm", "finalterm"]:
+        schoolgrade_id = request.form.get('schoolgrade_id')
+        select_grade = SchoolGrades.query.get(schoolgrade_id)
+    elif form_name == "mock":
+        mockgrade_id = request.form.get('mockgrade_id')
+        select_grade = MockGrades.query.get(mockgrade_id)
+
+    if select_grade:
+        db.session.delete(select_grade)
+        db.session.commit()
+
     return redirect(url_for('guide_view.grades'))
 
 @guide_view.route('/board')
