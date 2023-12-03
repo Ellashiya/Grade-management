@@ -1,7 +1,7 @@
 from flask import Flask, Blueprint, request, render_template, flash, redirect, url_for, session, jsonify
 from flask_login import current_user, login_required, login_user, logout_user
 from werkzeug.security import generate_password_hash, check_password_hash
-from db_model.models import db, User, Plans
+from db_model.models import db, User, Plans, SchoolGrades, MockGrades
 from datetime import datetime
 from forms import UserForm, LoginForm, PlannerForm, SchoolGradeForm, MockGradeFrom, FinalGradeForm
 import json
@@ -78,55 +78,79 @@ def grades():
     f_form = FinalGradeForm()
     mock_form = MockGradeFrom()
     rate = 10
-    return render_template('layout-grades.html',rate=rate, midterm_form=midterm_form, mock_form=mock_form, f_form=f_form)
+
+    midtermlist = SchoolGrades.query.filter_by(user_id=current_user.id, ismidterm="Yes").all()
+    finaltermlist = SchoolGrades.query.filter_by(user_id=current_user.id, ismidterm="No").all()
+    mocklist = MockGrades.query.filter_by(user_id=current_user.id).all()
+    return render_template('layout-grades.html',
+                            rate=rate,
+                            midterm_form=midterm_form, 
+                            mock_form=mock_form, 
+                            f_form=f_form, 
+                            midtermlist=midtermlist,
+                            finaltermlist=finaltermlist,
+                            mocklist=mocklist)
 
 # 내신 성적 추가 - 중간고사
 @guide_view.route('/grades/school/midterm', methods=['POST'])
 @login_required
 def grades_midterm():
-    midterm_form = SchoolGradeForm()
-    f_form = FinalGradeForm()
-    mock_form = MockGradeFrom()
-    rate = 10
-    
-    if midterm_form.validate_on_submit():
-        print('중간고사 추가')
-    else:
-        print(midterm_form.errors)
-    
-    return render_template('layout-grades.html',rate=rate, midterm_form=midterm_form, mock_form=mock_form, f_form=f_form)
+    semester_str = request.form.get('midterm_semester')
+
+    new_midterm = SchoolGrades(
+        user_id = current_user.id,
+        grade = current_user.age - 16,
+        year = datetime(int(semester_str[:4]), 1, 1), 
+        semester = int(semester_str[8]),
+        ismidterm = "Yes",
+        subject = request.form.get('midterm_subject'),
+        score = request.form.get('midterm_score'),
+        rank = request.form.get('midterm_rank'),
+        schoolrank = request.form.get('midterm_schoolrank'),
+        isRank = request.form.get('midterm_is_rank')
+    )
+    db.session.add(new_midterm)
+    db.session.commit()
+    return redirect(url_for('guide_view.grades'))
 
 # 내신 성적 추가 - 기말고사
 @guide_view.route('/grades/school/final', methods=['POST'])
 @login_required
 def grades_final():
-    midterm_form = SchoolGradeForm()
-    f_form = FinalGradeForm()
-    mock_form = MockGradeFrom()
-    rate = 10
-    
-    if f_form.validate_on_submit():
-        print('기말고사 추가')
-    else:
-        print(f_form.errors)
-    
-    return render_template('layout-grades.html',rate=rate, midterm_form=midterm_form, mock_form=mock_form, f_form=f_form)
+    semester_str = request.form.get('finalterm_semester')
+
+    new_finalterm = SchoolGrades(
+        user_id = current_user.id,
+        grade = current_user.age - 16,
+        year = datetime(int(semester_str[:4]), 1, 1), 
+        semester = int(semester_str[8]),
+        ismidterm = "No",
+        subject = request.form.get('finalterm_subject'),
+        score = request.form.get('finalterm_score'),
+        rank = request.form.get('finalterm_rank'),
+        schoolrank = request.form.get('finalterm_schoolrank'),
+        isRank = request.form.get('finalterm_is_rank')
+    )
+    db.session.add(new_finalterm)
+    db.session.commit()
+    return redirect(url_for('guide_view.grades'))
 
 # 모의고사 성적 추가
 @guide_view.route('/grades/mock', methods=['POST'])
 @login_required
 def grades_mock():
-    midterm_form = SchoolGradeForm()
-    f_form = FinalGradeForm()
-    mock_form = MockGradeFrom()
-    rate = 10
-    
-    if mock_form.validate_on_submit():
-        print('모의고사 추가')
-    else:
-        print(mock_form.errors)
-    
-    return render_template('layout-grades.html',rate=rate, midterm_form=midterm_form, mock_form=mock_form, f_form=f_form)
+    new_mock = MockGrades(
+        user_id = current_user.id,
+        grade = current_user.age - 16,
+        year = int(request.form.get('mock_year')[:4]),
+        month = int(request.form.get('mock_month')[0]),
+        subject = request.form.get('mock_subject'),
+        score = request.form.get('mock_score'),
+        rank = request.form.get('mock_rank')
+    )
+    db.session.add(new_mock)
+    db.session.commit()
+    return redirect(url_for('guide_view.grades'))
 
 @guide_view.route('/board')
 def board():

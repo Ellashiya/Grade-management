@@ -125,8 +125,8 @@ class SchoolGradeForm(FlaskForm):
         choices=[('2013학년도 1학기', '2013학년도 1학기'), ('2013학년도 2학기', '2013학년도 2학기')]
     )
     # 과목
-    grade = StringField(
-        "grade",
+    subject = StringField(
+        "subject",
         validators=[
             DataRequired(message="과목은 필수입니다."), 
             Length(max=20, message="20글자 이내로 입력해주세요. ")

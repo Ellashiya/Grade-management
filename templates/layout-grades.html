@@ -58,7 +58,7 @@
               <div class="card-header">중간고사</div>
               <div class="card-body text-center">
                 <table
-                  class="table table-striped w-auto"
+                  class="table table-hover w-auto"
                   id="schoolgradestable"
                 >
                   <thead>
@@ -78,7 +78,7 @@
                         {{ midterm_form.csrf_token }}
                         <!-- 학기 선택 -->
                         <th>
-                          <select id="{{ midterm_form.semester.id }}" name="{{ midterm_form.semester.name }}" class="form-select">
+                          <select id="midterm_semester" name="midterm_semester" class="form-select">
                             {% for value, label in midterm_form.semester.choices %}
                             <option value="{{ value }}" {% if value == midterm_form.semester.data %}selected{% endif %}>{{ label }}</option>
                             {% endfor %}
@@ -88,25 +88,27 @@
                         <th>
                           <input
                             class="form-control"
-                            type="subject"
+                            type="text"
                             placeholder="과목"
-                            name="{{ midterm_form.grade.data }}"
-                            value="{{ midterm_form.grade.data or '' }}"
+                            id="midterm_subject"
+                            name="midterm_subject"
+                            value="{{ midterm_form.subject.data or '' }}"
                           />
                         </th>
                         <!-- 등수 입력 -->
                         <th>
                           <input
                             class="form-control"
-                            type="numrank"
+                            type="number"
                             placeholder="등수"
-                            name="{{ midterm_form.schoolrank.data }}"
+                            id="midterm_schoolrank"
+                            name="midterm_schoolrank"
                             value="{{ midterm_form.schoolrank.data or '' }}"
                           />
                         </th>
                         <!-- 등급 선택 -->
                         <th>
-                          <select id="{{ midterm_form.rank.id }}" name="{{ midterm_form.rank.name }}" class="form-select">
+                          <select id="midterm_rank" name="midterm_rank" class="form-select">
                             {% for value, label in midterm_form.rank.choices %}
                             <option value="{{ value }}" {% if value == midterm_form.rank.data %}selected{% endif %}>{{ label }}</option>
                             {% endfor %}
@@ -114,7 +116,7 @@
                         </th>
                         <!-- 학점제 유무 선택 -->
                         <th>
-                          <select id="{{ midterm_form.is_rank.id }}" name="{{ midterm_form.is_rank.name }}" class="form-select">
+                          <select id="midterm_is_rank" name="midterm_is_rank" class="form-select">
                             {% for value, label in midterm_form.is_rank.choices %}
                             <option value="{{ value }}" {% if value == midterm_form.is_rank.data %}selected{% endif %}>{{ label }}</option>
                             {% endfor %}
@@ -124,9 +126,10 @@
                         <th>
                           <input
                             class="form-control"
-                            type="score"
+                            type="number"
                             placeholder="점수"
-                            name="{{ midterm_form.score.data }}"
+                            id="midterm_score"
+                            name="midterm_score"
                             value="{{ midterm_form.score.data or '' }}"
                           />
                         </th>
@@ -141,7 +144,15 @@
                   </thead>
                   <tbody>
                     <tr>
-                      {% for item in midtermlist %} {% endfor %}
+                      {% for item in midtermlist %}
+                        <td>{{ item.year.strftime('%Y') }}학년도&nbsp;{{ item.semester }}학기</td>
+                        <td>{{ item.subject }}</td>
+                        <td>{{ item.schoolrank }}</td>
+                        <td>{{ item.rank }}</td>
+                        <td>{{ item.isRank }}</td>
+                        <td>{{ item.score }}</td>
+                        <td><button class="btn btn-outline-danger">삭제하기</button></td>
+                      {% endfor %}
                     </tr>
                   </tbody>
                 </table>
@@ -152,7 +163,7 @@
               <div class="card-header">기말고사</div>
               <div class="card-body text-center">
                 <table
-                  class="table table-striped w-auto"
+                  class="table table-hover w-auto"
                   id="schoolgradestable"
                 >
                   <thead>
@@ -172,7 +183,7 @@
                         {{ f_form.csrf_token }}
                         <!-- 학기 선택 -->
                         <th>
-                          <select id="{{ f_form.semester.id }}" name="{{ f_form.semester.name }}" class="form-select">
+                          <select id="finalterm_semester" name="finalterm_semester" class="form-select">
                             {% for value, label in f_form.semester.choices %}
                             <option value="{{ value }}" {% if value == f_form.semester.data %}selected{% endif %}>{{ label }}</option>
                             {% endfor %}
@@ -182,9 +193,10 @@
                         <th>
                           <input
                             class="form-control"
-                            type="subject"
+                            type="text"
                             placeholder="과목"
-                            name="{{ f_form.grade.data }}"
+                            id="finalterm_subject"
+                            name="finalterm_subject"
                             value="{{ f_form.grade.data or '' }}"
                           />
                         </th>
@@ -192,15 +204,15 @@
                         <th>
                           <input
                             class="form-control"
-                            type="numrank"
+                            type="number"
                             placeholder="등수"
-                            name="{{ f_form.schoolrank.data }}"
+                            name="finalterm_schoolrank"
                             value="{{ f_form.schoolrank.data or '' }}"
                           />
                         </th>
                         <!-- 등급 선택 -->
                         <th>
-                          <select id="{{ f_form.rank.id }}" name="{{ f_form.rank.name }}" class="form-select">
+                          <select id="finalterm_rank" name="finalterm_rank" class="form-select">
                             {% for value, label in f_form.rank.choices %}
                             <option value="{{ value }}" {% if value == f_form.rank.data %}selected{% endif %}>{{ label }}</option>
                             {% endfor %}
@@ -208,7 +220,7 @@
                         </th>
                         <!-- 학점제 유무 선택 -->
                         <th>
-                          <select id="{{ f_form.is_rank.id }}" name="{{ f_form.is_rank.name }}" class="form-select">
+                          <select id="finalterm_is_rank" name="finalterm_is_rank" class="form-select">
                             {% for value, label in f_form.is_rank.choices %}
                             <option value="{{ value }}" {% if value == f_form.is_rank.data %}selected{% endif %}>{{ label }}</option>
                             {% endfor %}
@@ -218,9 +230,10 @@
                         <th>
                           <input
                             class="form-control"
-                            type="score"
+                            type="number"
                             placeholder="점수"
-                            name="{{ f_form.score.data }}"
+                            id="finalterm_score"
+                            name="finalterm_score"
                             value="{{ f_form.score.data or '' }}"
                           />
                         </th>
@@ -235,7 +248,15 @@
                   </thead>
                   <tbody>
                     <tr>
-                      {% for item in finaltermlist %} {% endfor %}
+                      {% for item in finaltermlist %}
+                        <td>{{ item.year.strftime('%Y') }}학년도&nbsp;{{ item.semester }}학기</td>
+                        <td>{{ item.subject }}</td>
+                        <td>{{ item.schoolrank }}</td>
+                        <td>{{ item.rank }}</td>
+                        <td>{{ item.isRank }}</td>
+                        <td>{{ item.score }}</td>
+                        <td><button class="btn btn-outline-danger">삭제하기</button></td>
+                      {% endfor %}
                     </tr>
                   </tbody>
                 </table>
@@ -327,7 +348,7 @@
                 <div class="card-header">모의고사</div>
                 <div class="card-body text-center">
                   <table
-                    class="table table-striped w-auto"
+                    class="table table-hover w-auto"
                     id="schoolgradestable"
                   >
                     <thead>
@@ -346,7 +367,7 @@
                           {{ mock_form.csrf_token }}
                           <!-- 연도 선택 -->
                           <th>
-                            <select id="{{ mock_form.year.id }}" name="{{ mock_form.year.name }}" class="form-select">
+                            <select id="mock_year" name="mock_year" class="form-select">
                               {% for value, label in mock_form.year.choices %}
                               <option value="{{ value }}" {% if value == mock_form.year.data %}selected{% endif %}>{{ label }}</option>
                               {% endfor %}
@@ -354,7 +375,7 @@
                           </th>
                           <!-- 월 선택 -->
                           <th>
-                            <select id="{{ mock_form.month.id }}" name="{{ mock_form.month.name }}" class="form-select">
+                            <select id="mock_month" name="mock_month" class="form-select">
                               {% for value, label in mock_form.month.choices %}
                               <option value="{{ value }}" {% if value == mock_form.month.data %}selected{% endif %}>{{ label }}</option>
                               {% endfor %}
@@ -364,15 +385,16 @@
                           <th>
                             <input
                               class="form-control"
-                              type="subject"
+                              type="text"
                               placeholder="과목"
-                              name="{{ mock_form.grade.name }}"
+                              id="mock_subject"
+                              name="mock_subject"
                               value="{{ mock_form.grade.data or '' }}"
                             />
                           </th>
                           <!-- 등급 선택 -->
                           <th>
-                            <select id="{{ mock_form.rank.id }}" name="{{ mock_form.rank.name }}" class="form-select">
+                            <select id="mock_rank" name="mock_rank" class="form-select">
                               {% for value, label in mock_form.rank.choices %}
                               <option value="{{ value }}" {% if value == mock_form.rank.data %}selected{% endif %}>{{ label }}</option>
                               {% endfor %}
@@ -382,9 +404,9 @@
                           <th>
                             <input
                               class="form-control"
-                              type="score"
+                              type="number"
                               placeholder="점수"
-                              name="{{ mock_form.score.name }}"
+                              name="mock_score"
                               value="{{ mock_form.score.data or '' }}"
                             />
                           </th>
@@ -402,7 +424,13 @@
                     </thead>
                     <tbody>
                       <tr>
-                        {% for item in finaltermlist %} {% endfor %}
+                        {% for item in mocklist %}
+                        <td>{{ item.year }}년</td>
+                        <td>{{ item.month }}월</td>
+                        <td>{{ item.subject }}</td>
+                        <td>{{ item.rank }}</td>
+                        <td>{{ item.score }}</td>
+                        <td><button class="btn btn-outline-danger">삭제하기</button></td>{% endfor %}
                       </tr>
                     </tbody>
                   </table>
