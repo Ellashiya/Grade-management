@@ -79,9 +79,9 @@ def grades():
     mock_form = MockGradeFrom()
     rate = 10
 
-    midtermlist = SchoolGrades.query.filter_by(user_id=current_user.id, ismidterm="Yes").all()
-    finaltermlist = SchoolGrades.query.filter_by(user_id=current_user.id, ismidterm="No").all()
-    mocklist = MockGrades.query.filter_by(user_id=current_user.id).all()
+    midtermlist = SchoolGrades.query.filter_by(user_id=current_user.id, ismidterm="Yes").order_by(SchoolGrades.year.asc(), SchoolGrades.semester.asc()).all()
+    finaltermlist = SchoolGrades.query.filter_by(user_id=current_user.id, ismidterm="No").order_by(SchoolGrades.year.asc(), SchoolGrades.semester.asc()).all()
+    mocklist = MockGrades.query.filter_by(user_id=current_user.id).order_by(MockGrades.year.desc(), MockGrades.month.desc()).all()
     return render_template('layout-grades.html',
                             rate=rate,
                             midterm_form=midterm_form, 

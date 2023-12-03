@@ -143,8 +143,8 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      {% for item in midtermlist %}
+                    {% for item in midtermlist %}
+                      <tr>
                         <td>{{ item.year.strftime('%Y') }}학년도&nbsp;{{ item.semester }}학기</td>
                         <td>{{ item.subject }}</td>
                         <td>{{ item.schoolrank }}</td>
@@ -152,8 +152,8 @@
                         <td>{{ item.isRank }}</td>
                         <td>{{ item.score }}</td>
                         <td><button class="btn btn-outline-danger">삭제하기</button></td>
-                      {% endfor %}
-                    </tr>
+                      </tr>
+                    {% endfor %}
                   </tbody>
                 </table>
               </div>
@@ -247,8 +247,8 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      {% for item in finaltermlist %}
+                    {% for item in finaltermlist %}
+                      <tr>
                         <td>{{ item.year.strftime('%Y') }}학년도&nbsp;{{ item.semester }}학기</td>
                         <td>{{ item.subject }}</td>
                         <td>{{ item.schoolrank }}</td>
@@ -256,8 +256,8 @@
                         <td>{{ item.isRank }}</td>
                         <td>{{ item.score }}</td>
                         <td><button class="btn btn-outline-danger">삭제하기</button></td>
-                      {% endfor %}
-                    </tr>
+                      </tr>
+                    {% endfor %}
                   </tbody>
                 </table>
               </div>
@@ -285,12 +285,12 @@
                         <div class="input-group col-md-2">
                           <!-- 학기 선택-->
                           <label
-                            class="col-form-control col-md-2"
+                            class="col-form-control col-md-4"
                             type="semester"
                             for="semester"
                             >학기</label
                           >
-                          <select class="col-form-select">
+                          <select class="form-select">
                             <option value="2023학년도 1학기" selected>
                               2023학년도 1학기
                             </option>
@@ -309,7 +309,7 @@
                             for="term"
                             >시험기간 선택</label
                           >
-                          <select class="col-form-select">
+                          <select class="form-select">
                             <option value="기말고사" selected>중간고사</option>
                             <option value="중간고사">기말고사</option>
                           </select>
@@ -423,15 +423,16 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
-                        {% for item in mocklist %}
-                        <td>{{ item.year }}년</td>
-                        <td>{{ item.month }}월</td>
-                        <td>{{ item.subject }}</td>
-                        <td>{{ item.rank }}</td>
-                        <td>{{ item.score }}</td>
-                        <td><button class="btn btn-outline-danger">삭제하기</button></td>{% endfor %}
-                      </tr>
+                      {% for item in mocklist %}
+                        <tr>
+                          <td>{{ item.year }}년</td>
+                          <td>{{ item.month }}월</td>
+                          <td>{{ item.subject }}</td>
+                          <td>{{ item.rank }}</td>
+                          <td>{{ item.score }}</td>
+                          <td><button class="btn btn-outline-danger">삭제하기</button></td>
+                        </tr>
+                      {% endfor %}
                     </tbody>
                   </table>
                 </div>
@@ -463,7 +464,7 @@
                           <div class="input-group col-md-2">
                             <!-- 연도 선택-->
                             <label
-                              class="col-form-control col-md-2"
+                              class="col-form-control col-md-4"
                               type="year"
                               for="year"
                               >연도</label
