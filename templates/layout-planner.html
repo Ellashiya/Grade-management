@@ -88,12 +88,10 @@
           for (let item of filteredList) {
             input += '<tr>';
             if(item.dodone == 'done'){
-              input += '<td><input type="checkbox" name="dodoneCheckbox" value="done" data-plan-id="'+ Number(item.plan_id) + '" checked></td>';
-              input += '<td class="col-md-5"><del>' + item.title + '</del></td>';
+              input += '<td class="col-md-6"><del>' + item.title + '</del></td>';
             }
             else {
-              input += '<td><input type="checkbox" name="dodoneCheckbox" value="do" data-plan-id="'+ Number(item.plan_id) + '"></td>';
-              input += '<td class="col-md-5">' + item.title + '</td>';
+              input += '<td class="col-md-6">' + item.title + '</td>';
             }
             input += '<td><form method="POST" action="/planner/delete">{{ form.csrf_token }}';
             input += '<input type="hidden" name="plan_id" value="' + Number(item.plan_id) + '">'

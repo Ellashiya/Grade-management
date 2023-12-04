@@ -13,7 +13,10 @@
     </ol>
     <div class="card mt-3">
       <div class="card-header">
-        <a class="mt-2" href="/board">목록으로 돌아가기</a>
+        <div class="row g-2">
+          <div class="col-md-11"><a class="mt-2" href="/board">목록으로 돌아가기</a></div>
+          <div class="col-md"><p class="mt-2" style="text-align:end">조회수 : {{ post.views }}</p></div>
+        </div>
         <h3 class="mt-3">{{ post.title }}</h3>
       </div>
       <div class="card-body">{{ post.content }}</div>
@@ -21,11 +24,12 @@
     <div class="card mt-3">
       <div class="card-header">댓글</div>
       <div class="card-body">
-        <form method="post" action="/comment/add">
+        <form method="post" action="/{{ post.board_id }}/comment/add">
+          {{ form.csrf_token }}
           <div class="row g-2">
             <div class="col-md-11">
               <div class="form-floating">
-                <textarea class="form-control" id="input_comment" style="height: 100px"></textarea>
+                <textarea class="form-control" id="input_comment" name="input_comment" style="height: 100px"></textarea>
                 <label for="input_comment">댓글 내용을 작성하세요</label>
               </div>
             </div>
@@ -41,32 +45,36 @@
       <div class="card-footer">
         {% for item in commentlist %}
         <div class="card card-header-actions">
-          <div class="card-header">
-            {{ item.user_id }} {% if item.user_id == current_user.id %}
-            <div class="dropdown no-caret">
-              <button
-                class="btn btn-transparent-dark btn-icon dropdown-toggle"
-                id="comment_dropdown"
-                type="button"
-                data-bs-toggle="dropdown"
-                aria-haspopup="true"
-                aria-expanded="false"
-              >
-                <i data-feather="more-vertical"></i>
-              </button>
-              <div
-                class="dropdown-menu dropdown-menu-right animated--fade-in-up"
-                aria-labelledby="comment_dropdown"
-              >
-                <a class="dropdown-item" href="/comment/update">수정</a>
-                <a class="dropdown-item" href="/comment/delete">삭제</a>
+          <div class="card-header row g-2">
+            <div class="col-md-11 my-3">
+              {{ item.user_id }}
+            </div>
+            {% if item.user_id == current_user.id %}
+            <div class="col-md" style="text-align:end">
+              <div class="dropdown no-caret">
+                <button
+                  class="btn btn-transparent-dark btn-icon dropdown-toggle"
+                  id="comment_dropdown"
+                  type="button"
+                  data-bs-toggle="dropdown"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                >
+                  <i data-feather="more-vertical"></i>
+                </button>
+                <div
+                  class="dropdown-menu dropdown-menu-right animated--fade-in-up"
+                  aria-labelledby="comment_dropdown"
+                >
+                  <a class="dropdown-item" href="/{{ item.board_id }}/comment/update">수정</a>
+                  <a class="dropdown-item" href="/{{ item.board_id }}/comment/delete/{{ item.comment_id }}">삭제</a>
+                </div>
               </div>
             </div>
             {% endif %}
           </div>
           <div class="card-body">{{ item.content }}</div>
-          <div class="card-footer">{{ item.update_date }}</div>
-          <hr style="width: 100%" />
+          <div class="card-footer">마지막 수정일 : {{ item.update_date.strftime('%Y-%m-%d %H:%M:%S') }}</div>
           <!-- 답글 목록 -->
           {% for item in replylist %}
           <div class="card card-header-actions">
@@ -94,10 +102,10 @@
               {% endif %}
             </div>
             <div class="card-body">{{ item.content }}</div>
-            <div class="card-footer">{{ item.update_date }}</div>
+            <div class="card-footer">마지막 수정일 : {{ item.update_date.strftime('%Y-%m-%d %H:%M:%S') }}</div>
           </div>
           {% endfor %}
-        </div>
+        </div><br/>
         {% endfor %}
       </div>
     </div>

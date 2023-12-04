@@ -3,7 +3,7 @@ from flask_login import current_user, login_required, login_user, logout_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from db_model.models import db, User, Plans, SchoolGrades, MockGrades, Boards, Comments, Replys
 from datetime import datetime
-from forms import UserForm, LoginForm, PlannerForm, SchoolGradeForm, MockGradeFrom, FinalGradeForm
+from forms import UserForm, LoginForm, PlannerForm, SchoolGradeForm, MockGradeFrom, FinalGradeForm, CommentForm
 import json
 
 guide_view = Blueprint('guide_view', __name__, url_prefix='/')
@@ -182,10 +182,37 @@ def board():
 @guide_view.route('/board/view/<post_id>', methods=['GET', 'POST'])
 @login_required
 def board_view(post_id):
+    form = CommentForm()
     post = Boards.query.filter_by(board_id=post_id).first()
-    commentlist = Comments.query.filter_by(board_id=post_id).first()
-    replylist = Replys.query.filter_by(board_id=post_id).first()
-    return render_template('layout-board-view.html', post=post, commentlis=commentlist, replylist=replylist)
+    post.views += 1
+    db.session.commit()
+    commentlist = Comments.query.filter_by(board_id=post_id).all()
+    replylist = Replys.query.filter_by(board_id=post_id).all()
+
+    return render_template('layout-board-view.html', form=form, post=post, commentlist=commentlist, replylist=replylist)
+
+#댓글 추가
+@guide_view.route('/<post_id>/comment/add', methods=['POST'])
+@login_required
+def comment_add(post_id):
+    new_comment = Comments(
+        user_id=current_user.id,
+        board_id=post_id,
+        content=request.form.get('input_comment')
+    )
+    db.session.add(new_comment)
+    db.session.commit()
+    return redirect(url_for('guide_view.board_view', post_id=post_id))
+
+#댓글 삭제
+@guide_view.route('/<post_id>/comment/delete/<comment_id>')
+@login_required
+def comment_delete(post_id, comment_id):
+    select_comment = Comments.query.get(comment_id)
+    db.session.delete(select_comment)
+    db.session.commit()
+
+    return redirect(url_for('guide_view.board_view', post_id=post_id))
 
 @guide_view.route('/login', methods=['GET', 'POST'])  
 def login():
@@ -238,22 +265,10 @@ def register():
 # def password():
 #     return render_template('password.html')
 
-# #댓글 추가
-# @guide_view.route('/comment/add', methods=['GET', 'POST'])
-# @login_required
-# def comment_add():
-#     return render_template('/board/view')
-
 # #댓글 수정
 # @guide_view.route('/comment/update/<int:id>', methods=['GET', 'POST'])
 # @login_required
 # def comment_update():
-#     return render_template('/board/view')
-
-# #댓글 삭제
-# @guide_view.route('/comment/delete/<int:id>')
-# @login_required
-# def comment_delete():
 #     return render_template('/board/view')
 
 # #답글 추가

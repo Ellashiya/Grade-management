@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import PasswordField, StringField, SubmitField, IntegerField, HiddenField, RadioField, SelectField, FormField
+from wtforms import PasswordField, StringField, SubmitField, IntegerField, HiddenField, RadioField, SelectField, TextAreaField
 from wtforms.validators import DataRequired, Email, Length, EqualTo
 from datetime import datetime
 
@@ -122,7 +122,7 @@ class SchoolGradeForm(FlaskForm):
     # 학기
     semester = SelectField(
         "semester",
-        choices=[('2013학년도 1학기', '2013학년도 1학기'), ('2013학년도 2학기', '2013학년도 2학기')]
+        choices=[('2023학년도 1학기', '2023학년도 1학기'), ('2023학년도 2학기', '2023학년도 2학기')]
     )
     # 과목
     subject = StringField(
@@ -169,7 +169,7 @@ class FinalGradeForm(FlaskForm):
     # 학기
     semester = SelectField(
         "semester",
-        choices=[('2013학년도 1학기', '2013학년도 1학기'), ('2013학년도 2학기', '2013학년도 2학기')]
+        choices=[('2023학년도 1학기', '2023학년도 1학기'), ('2023학년도 2학기', '2023학년도 2학기')]
     )
     # 과목
     grade = StringField(
@@ -216,7 +216,7 @@ class MockGradeFrom(FlaskForm):
     # 연도
     year = SelectField(
         "year",
-        choices=[('2013년', '2013년'), ('2014년', '2014년')]
+        choices=[('2023년', '2023년'), ('2024년', '2024년')]
     )
     # 월
     month = SelectField(
@@ -253,7 +253,13 @@ class MockGradeFrom(FlaskForm):
         ]
     )
     submit = SubmitField("모의고사 성적 등록")
-    
-    
 
-    
+class CommentForm(FlaskForm):
+    #내용
+    content = TextAreaField(
+        "content",
+        validators=[
+            DataRequired(message="내용을 입력해주세요.")
+        ]
+    )
+    submit = SubmitField("댓글 등록")
