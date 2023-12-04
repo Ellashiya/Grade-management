@@ -3,19 +3,23 @@
   <div class="container-fluid px-4">
     <h1 class="mt-4">길잡이</h1>
     <ol class="breadcrumb mb-4">
-      <li class="breadcrumb-item">
-        &nbsp;<a href="/" style="text-decoration: none"
-          ><i class="fa-solid fa-house-chimney"></i>&nbsp;메인화면</a
-        >
+      <li class="breadcrumb-item"> &nbsp;
+        <a href="/" style="text-decoration: none">
+          <i class="fa-solid fa-house-chimney"></i>&nbsp;메인화면
+        </a>
       </li>
       <li class="breadcrumb-item active">플래너</li>
     </ol>
     <div class="card">
-      <div class="card-body">{{"추천 문제"}}</div>
+      <div class="card-header"><h5 class="mt-2">추천 문제</h5></div>
+      <div class="card-body">
+        <p>추천 문제 테스트</p>
+        <a href="#">보러가기</a>
+      </div>
     </div>
-    <div class="card">
+    <div class="card mt-3">
       <div class="card-body text-center">
-        <table class="table table-striped w-auto" id="board">
+        <table class="table table-hover" style="width:80%" id="board">
           <thead>
             <!-- 필드 명 -->
             <tr>
@@ -28,11 +32,13 @@
             </tr>
           </thead>
           <tbody>
-            {% for item in posts %} {% set title_list = item.title.split() %} {%
-            set year = title_list[0] %} {% set month = title_list[1] %} {% set
-            school_year = title_list[2] %} {% set subject = title_list[3] %} {%
-            set num = title_list[4] %}
-
+            {% for item in posts %}
+              {% set title_list = item.title.split() %}
+              {% set year = title_list[0] %}
+              {% set month = title_list[1] %}
+              {% set school_year = title_list[2] %}
+              {% set subject = title_list[3] %}
+              {% set num = title_list[4] %}
             <tr>
               <td>{{ year }}</td>
               <td>{{ month }}</td>
@@ -43,8 +49,7 @@
               <td>
                 <a
                   href="/board/view/{{ item.board_id }}"
-                  class="btn btn-outline-dark"
-                >
+                  class="btn btn-outline-dark">
                   게시글 보기
                 </a>
               </td>

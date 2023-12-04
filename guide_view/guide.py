@@ -1,7 +1,7 @@
 from flask import Flask, Blueprint, request, render_template, flash, redirect, url_for, session, jsonify
 from flask_login import current_user, login_required, login_user, logout_user
 from werkzeug.security import generate_password_hash, check_password_hash
-from db_model.models import db, User, Plans, SchoolGrades, MockGrades, Boards
+from db_model.models import db, User, Plans, SchoolGrades, MockGrades, Boards, Comments, Replys
 from datetime import datetime
 from forms import UserForm, LoginForm, PlannerForm, SchoolGradeForm, MockGradeFrom, FinalGradeForm
 import json
@@ -183,7 +183,9 @@ def board():
 @login_required
 def board_view(post_id):
     post = Boards.query.filter_by(board_id=post_id).first()
-    return render_template('layout-board-view.html', post=post)
+    commentlist = Comments.query.filter_by(board_id=post_id).first()
+    replylist = Replys.query.filter_by(board_id=post_id).first()
+    return render_template('layout-board-view.html', post=post, commentlis=commentlist, replylist=replylist)
 
 @guide_view.route('/login', methods=['GET', 'POST'])  
 def login():

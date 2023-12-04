@@ -3,58 +3,99 @@
   <div class="container-fluid px-4">
     <h1 class="mt-4">길잡이</h1>
     <ol class="breadcrumb mb-4">
-      <li class="breadcrumb-item">
-        &nbsp;<a href="/" style="text-decoration: none"
-          ><i class="fa-solid fa-house-chimney"></i>&nbsp;메인화면</a
-        >
+      <li class="breadcrumb-item">&nbsp;
+        <a href="/" style="text-decoration: none">
+          <i class="fa-solid fa-house-chimney"></i>&nbsp;메인화면
+        </a>
       </li>
       <li class="breadcrumb-item active">플래너</li>
     </ol>
-    <div class="card card-header-actions">
-      <div class="card-header">
-        {{board.title}}
-        <div>
-          <a href="/board">목록으로 돌아가기</a>
-        </div>
-      </div>
-      <div class="card-body">{{"추천 문제"}}</div>
-      <div class="card-footer"><a href="#">보러가기</a></div>
-    </div>
     <div class="card">
-      <div class="card-body">{{board.content}}</div>
+      <div class="card-header"><h5 class="mt-2">추천 문제</h5></div>
+      <div class="card-body">
+        <p>추천 문제 테스트</p>
+        <a href="#">보러가기</a>
+      </div>
     </div>
-    {% for in commentlist %}
-    <div class="card card-header-actions">
+    <div class="card mt-3">
       <div class="card-header">
-        {{users.nickname}}
-        <div>
-          {% if userid == comment_userid %}
-          <a href="/comment/update">댓글 수정</a>
-          <a href="/comment/delete">댓글 삭제</a>
-          {% else %}
-          <a href="/reply/add">답글 달기</a>
-          {% endif %}
-        </div>
+        <a class="mt-2" href="/board">목록으로 돌아가기</a>
+        <h3 class="mt-3">{{ post.title }}</h3>
       </div>
-      {% for in replyrist %}
       <div class="card-body">
-        {% if userid == reply_userid %}
-        <a href="/comment/update">답글 수정</a>
-        <a href="/comment/delete">답글 삭제</a>
-        {% endif %}
+        {{ post.content }}
       </div>
-      {% endfor%}
     </div>
-    {% endfor %}
-    <div class="card">
-      <div class="card-header">댓글 쓰기</div>
+    <div class="card mt-3">
+      <div class="card-header">댓글</div>
       <div class="card-body">
-        <form method="post">
-          <textarea name="comment" id="comment" cols="30" rows="10"></textarea>
-          <button class="btn btn-outline-secondary" type="addcommentbtn">
-            등록하기
-          </button>
+        <form method="post" action="/comment/add">
+          <div class="row g-2">
+            <div class="col-md-11">
+              <div class="form-floating">
+                <textarea class="form-control" id="input_comment" style="height:100px"></textarea>
+                <label for="input_comment">댓글 내용을 작성하세요</label>
+              </div>
+            </div>
+            <div class="col-md">
+              <button class="btn btn-outline-primary" style="height:100px" type="submit">
+                등록하기
+              </button>
+            </div>
+          </div>
         </form>
+      </div>
+      <!-- 댓글 목록 -->
+      <div class="card-footer">
+        {% for item in commentlist %}
+          <div class="card card-header-actions">
+            <div class="card-header">
+              {{ item.user_id }}
+              {% if item.user_id == current_user.id %}
+                <div class="dropdown no-caret">
+                  <button class="btn btn-transparent-dark btn-icon dropdown-toggle" id="comment_dropdown" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <i data-feather="more-vertical"></i>
+                  </button>
+                  <div class="dropdown-menu dropdown-menu-right animated--fade-in-up" aria-labelledby="comment_dropdown">
+                      <a class="dropdown-item" href="/comment/update">수정</a>
+                      <a class="dropdown-item" href="/comment/delete">삭제</a>
+                  </div>
+                </div>
+              {% endif %}
+            </div>
+            <div class="card-body">
+              {{ item.content }}
+            </div>
+            <div class="card-footer">
+              {{ item.update_date }}
+            </div><hr style="width:100%">
+            <!-- 답글 목록 -->
+            {% for item in replylist %}
+              <div class="card card-header-actions">
+                <div class="card-header">
+                  {{ item.user_id }}
+                  {% if item.user_id == current_user.id %}
+                    <div class="dropdown no-caret">
+                      <button class="btn btn-transparent-dark btn-icon dropdown-toggle" id="reply_dropdown" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          <i data-feather="more-vertical"></i>
+                      </button>
+                      <div class="dropdown-menu dropdown-menu-right animated--fade-in-up" aria-labelledby="reply_dropdown">
+                        <a class="dropdown-item" href="/reply/update">수정</a>
+                        <a class="dropdown-item" href="/reply/delete">삭제</a>
+                      </div>
+                    </div>
+                  {% endif %}
+                </div>
+                <div class="card-body">
+                  {{ item.content }}
+                </div>
+                <div class="card-footer">
+                  {{ item.update_date }}
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+        {% endfor %}
       </div>
     </div>
   </div>
